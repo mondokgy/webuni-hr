@@ -1,0 +1,22 @@
+#profile kapcsoló, smart vagy egyéb. Ha smart, akkor időalapú az emelés százalékszámítása. Ha nem smart, akkor
+spring:
+ profiles:
+  active: smart
+
+#default mindenkinek járó emelés. Smart esetben az kapja aki a legkissebb beállított időalapú kedvezményre sem jogosult. Nem smart esetben mindenki ezt kapja. Ha hiányzik a paraméter akkor default 0. 
+hr:
+ pay:
+  percent:
+   def: 1
+
+#smart profilnál alkalmazott százalék meghatározás paraméterezése. Év/százalék párosok. A párosoknak teljesnek kell lenni, nemlehetnek féllábasak.
+listhr:
+ paycategory:
+  - year: 5
+    percent: 5
+  - year: 2.5
+    percent: 2
+  - year: 10
+    percent: 10
+  - year: 8
+    percent: 9
