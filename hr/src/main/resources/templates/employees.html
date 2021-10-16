@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hr application</title>
+</head>
+<body>
+
+ <h1>List of employees</h1>
+ 
+ <ul>
+	 <li th:each="employee: ${employees}">
+	 	<span th:text="${employee.employeeID}">employeeID</span>
+	 	<span th:text="${employee.name}">name</span>
+	 	<span th:text="${employee.position}">position</span>
+	 	<span th:text="${employee.salary}">salary</span>
+	 	<span th:text="${employee.startWork}">startWork</span>
+	 </li>
+ </ul>
+ 
+ <form th:action="@{/employees}" method="post" th:object="${newEmployee}">
+ 	Id:<input th:field="*{employeeID}" /><br/>
+ 	Name:<input th:field="*{name}" /><br/>
+ 	Position:<input th:field="*{position}" /><br/>
+ 	Salary:<input th:field="*{salary}" /><br/>
+   <input type="submit" value="add" />
+ </form>
+ 
+</body>
+</html>

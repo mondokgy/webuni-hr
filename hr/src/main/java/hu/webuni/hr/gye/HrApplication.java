@@ -35,7 +35,7 @@ public class HrApplication implements CommandLineRunner{
 		System.out.println("Start HR application.");
 		
 		//teszt employee adatainak megadása
-		employee = new Employee(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2017,Month.JANUARY, 15, 19, 30, 40));
+		employee = new Employee(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
 
 		log.info("Teszt employee:" + employee.toString());
 		
