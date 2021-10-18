@@ -1,8 +1,13 @@
 package hu.webuni.hr.gye.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import hu.webuni.hr.gye.config.HrListConfigProperties.PayCategory;
 
 @ConfigurationProperties(prefix="hr")
 @Component
@@ -108,6 +113,16 @@ public class HrConfigProperties {
 		}
 		
 		
+	}
+	
+    private List<String> position = new ArrayList<String>();
+	
+	public List<String> getPosition() {
+		return position;
+	}
+
+	public void setPosition(List<String> position) {
+		this.position = position;
 	}
 	
 }

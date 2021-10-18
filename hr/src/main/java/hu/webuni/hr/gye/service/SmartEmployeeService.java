@@ -76,9 +76,9 @@ public class SmartEmployeeService implements EmployeeService {
 //Ha egyáltalán nincs találat, akkor az emelés százaléka a default-nak beállított százalék lesz
 		double candidateYear = 0;
 		
-		for (int i = 0; i < configList.getList().size(); i++) {
-			int percent = configList.getList().get(i).getPercent();
-			double year = configList.getList().get(i).getYear();
+		for (int i = 0; i < configList.getPayCategory().size(); i++) {
+			int percent = configList.getPayCategory().get(i).getPercent();
+			double year = configList.getPayCategory().get(i).getYear();
 			
 			log.debug("percent:" + percent +", year:" + year);
 			

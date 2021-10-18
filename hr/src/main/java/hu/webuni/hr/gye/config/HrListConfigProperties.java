@@ -12,7 +12,7 @@ public class HrListConfigProperties {
 
 	private List<PayCategory> paycategory = new ArrayList<PayCategory>();
 	
-	public List<PayCategory> getList() {
+	public List<PayCategory> getPayCategory() {
 		return paycategory;
 	}
 
