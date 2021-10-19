@@ -2,6 +2,7 @@ package hu.webuni.hr.gye.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,6 +12,7 @@ public class Employee {
 	String name;
 	String position;
 	Integer salary;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime startWork;	
 		
 	public Employee() {

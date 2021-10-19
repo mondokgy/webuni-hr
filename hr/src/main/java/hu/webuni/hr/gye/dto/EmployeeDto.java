@@ -2,11 +2,14 @@ package hu.webuni.hr.gye.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class EmployeeDto {
 	private Long employeeID;
 	private String name;
 	private String position;
 	private Integer salary;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime startWork;
 	
 	public EmployeeDto() {
