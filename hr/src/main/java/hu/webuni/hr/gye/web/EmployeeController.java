@@ -31,50 +31,51 @@ public class EmployeeController {
 	
 	private Map<Long, EmployeeDto> employees = new HashMap<>();
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	LocalDateTime tempDate = LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40);
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	LocalDateTime tempDate2 = LocalDateTime.of(2019,Month.MAY, 22, 19, 30, 40);
-	
 	{		
-		employees.put(1L,new EmployeeDto(1L,"Teszt Elek", "tester", 1000, tempDate));		
-		employees.put(2L,new EmployeeDto(2L,"Próba Róza", "tester", 3000,tempDate2));
+		employees.put(1L,new EmployeeDto(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40)));		
+		employees.put(2L,new EmployeeDto(2L,"Próba Róza", "tester", 3000, LocalDateTime.of(2019,Month.MAY, 22, 19, 30, 40)));
 	}
 	
 	@GetMapping
 	public List<EmployeeDto> getAll(@RequestParam(required = false) Long salary){
 		
-		log.debug("getAll start");
+		log.debug("restapi controller, /, get, getAll start");
+		
 		if(salary == null) {
-			log.debug("salary null");
-			log.debug("getAll end");
+			log.debug("Salary null, return all employee.");
+			log.debug("restapi controller, /, get, getAll end");
+			
 			return new ArrayList<>(employees.values());
 		}else {
-			log.debug("salary not null:*"+salary+"*");
+			log.debug("salary not null:*"+salary+"*, return filtered employees");
 			
 			List<EmployeeDto> candidateEmployee = new ArrayList<>(employees.values());
 
 			for(EmployeeDto employee : candidateEmployee) {
 				log.debug("ciklus, id:*"+employee.getEmployeeID()+"*");
 				if(employee.getSalary()<=salary) {
-					log.debug("salary törlés");
+					log.debug("Filtered by Salary.");
 					candidateEmployee.remove(employee);
 				}
 			}
-			log.debug("getAll end");
+			
+			log.debug("restapi controller, /, get, getAll end");
 			return candidateEmployee;
 		}
-		
-		
-		
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<EmployeeDto> getById(@PathVariable Long id){
+		
+		log.debug("restapi controller, /{id}, get, getById start");
+		
 		EmployeeDto employeeDto = employees.get(id);
+		
 		if(employeeDto != null) {
+			log.debug("restapi controller, /{id}, get, getById end");
 			return ResponseEntity.ok(employeeDto);
 		}else {
+			log.debug("restapi controller, /{id}, get, getById end");
 			return ResponseEntity.notFound().build();
 		}
 		
@@ -82,24 +83,48 @@ public class EmployeeController {
 	
 	@PostMapping
 	public EmployeeDto createEmployee(@RequestBody EmployeeDto employeeDto) {
+		
+		log.debug("restapi controller, /, post, createEmployee start");
+		
 		employees.put(employeeDto.getEmployeeID(), employeeDto);
+		
+		log.debug("restapi controller, /, post, createEmployee end");
+		
 		return employeeDto;
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
+		
+		log.debug("restapi controller, /{id}, put, modifyEmployee start");
+		
 		if(!employees.containsKey(id)) {
 			return ResponseEntity.notFound().build();
 		}
 		
 		employeeDto.setEmployeeID(id);
 		employees.put(id, employeeDto);
+		
+		log.debug("restapi controller, /{id}, put, modifyEmployee end");
+		
 		return ResponseEntity.ok(employeeDto);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteEmployee(@PathVariable Long id) {
-		employees.remove(id);
+	public ResponseEntity<EmployeeDto> deleteEmployee(@PathVariable Long id) {
+		
+		log.debug("restapi controller, /{id}, delete, deleteEmployee start");
+		
+		EmployeeDto employeeDto = employees.get(id);
+		
+		if(employeeDto != null) {
+			employees.remove(id);
+			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
+			return ResponseEntity.ok(employeeDto);
+		}else {
+			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
+			return ResponseEntity.notFound().build();
+		}	
 	}
 	
 
