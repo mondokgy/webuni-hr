@@ -2,24 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Hr application</title>
+<title>[[#{lang_title}]]</title>
 </head>
 <body>
 
- <h1>List of employees</h1>
+<span th:text="#{lang.change}"></span>:
+<select id="locales">
+    <option value=""></option>
+    <option value="en" th:text="#{lang.eng}"></option>
+    <option value="hun" th:text="#{lang.hun}"></option>
+</select>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#locales").change(function () {
+        var selectedOption = $('#locales').val();
+        if (selectedOption != ''){
+            window.location.replace('international?lang=' + selectedOption);
+        }
+    });
+});
+</script>
+
+ <h1>[[#{lang.list_empl}]]</h1>
  
  <table border="1">
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Position</th>
-        <th>Salary</th>
-        <th>Start date</th>
+        <th>[[#{lang_empl_name}]]</th>
+	    <th>[[#{lang_empl_position}]]</th>
+	    <th>[[#{lang_empl_salary}]]</th>
+        <th>[[#{lang_empl_date}]]</th>
     </tr>
     <tr th:each="employee : ${employees}">
         <td th:text="${employee.employeeID}"></td>
         <td>
-	        <a th:href="@{http://localhost:8080/employee(employeeId=${employee.employeeID})}">
+	        <a th:href="@{/employee(employeeId=${employee.employeeID})}">
 	   			<span th:text="${employee.name}">name</span>
 	   		</a>
    		</td>
@@ -27,8 +47,8 @@
         <td th:text="${employee.salary}"></td>
         <td th:text="${#temporals.format(employee.startWork,'yyyy-MM-dd HH:mm')}"></td>      
         <td>
-        	<form action="#" th:action="@{http://localhost:8080/deleteEmployee(employeeId=${employee.employeeID})}" th:method="delete" >
-  				<button type="submit" id="submitButton"> delete </button>
+        	<form action="#" th:action="@{/deleteEmployee(employeeId=${employee.employeeID})}" th:method="delete" >
+  				<button type="submit" id="submitButtonDelete"> [[#{lang_button_delete}]] </button>
 			</form>
         <td/>
     </tr>
@@ -37,33 +57,33 @@
  
  <br/>
  
- <h2>New employee</h2>
+ <h2>[[#{lang.new_empl}]]</h2>
  
  <br/>
  <form th:action="@{/employees}" method="post" th:object="${newEmployee}"> 
 	 <table border="1">
 	    <tr>
 	        <th>ID</th>
-	        <th>Name</th>
-	        <th>Position</th>
-	        <th>Salary</th>
+	        <th>[[#{lang_empl_name}]]</th>
+	        <th>[[#{lang_empl_position}]]</th>
+	        <th>[[#{lang_empl_salary}]]</th>
 	    </tr>
 	    <tr>
 	        <td><input readonly th:field="*{employeeID}" /></td>
 	        <td><input th:field="*{name}" /></td>
 	        <td>
 	        	<select th:field="*{position}">
-				    <option value="">Select a position</option>		
+				    <option value="">[[#{lang_select_pos}]]</option>		
 				    <option th:each="curPos : ${positions}" th:value="${curPos}" th:text="${curPos}"/>		    
 				</select>
 				
        		 </td>
-	        <td><input th:field="*{salary}" /></td>
+	        <td><input type="number" th:field="*{salary}" /></td>
 
 	    </tr>
 	</table>
 	<br/>
-	<input type="submit" value="add" />
+	<button type="submit" id="submitButtonAdd"/>[[#{lang_button_add}]] </button>
 	<br/>
 </form>
 <br/>

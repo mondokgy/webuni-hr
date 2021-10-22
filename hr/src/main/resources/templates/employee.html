@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Hr application</title>
+<title>[[#{lang_title}]]</title>
 </head>
 <body>
 
- <h1>Employee</h1>
+ <h1>[[#{lang_empl}]]</h1>
 
 	<form th:action="@{/employees}" method="post" th:object="${employee}">
   
@@ -14,27 +14,28 @@
 
 		<table border="1">
 		    <tr>
-		        <th>Name</th>
-		        <th>Position</th>
-		        <th>Salary</th>
-		        <th>StartWork</th>
+		        <th>[[#{lang_empl_name}]]</th>
+			    <th>[[#{lang_empl_position}]]</th>
+			    <th>[[#{lang_empl_salary}]]</th>
+		        <th>[[#{lang_empl_date}]]</th>
 		    </tr>
 		    <tr>
 		        <td><input type="text" name="name"  th:field="${employee.name}" /></td>
 		        <td>
 			        <select th:field="${employee.position}">
-					    <option value="">Select a position</option>		
+					    <option value="">[[#{lang_select_pos}]]</option>		
 					    <option th:each="curPos : ${positions}" th:value="${curPos}" th:text="${curPos}"/>		    
 					</select>
 				</td>
-		        <td><input type="text" name="salary"  th:field="${employee.salary}" /></td>
+		        <td><input type="number" name="salary"  th:field="${employee.salary}" /></td>
 		        <td><input type="text" name="startWork"  th:field="${employee.startWork}" /></td>
 		    </tr>	 	
 		<table />
 		<br/>
-		<input type="submit" value="modify" /><br/>
+		<button type="submit" id="submitButtonModify"/>[[#{lang_button_modify}]] </button>
 	<form/>
  <br/>
-<a th:href="@{http://localhost:8080/employees}">Back</a>
+ <br/>
+<a th:href="@{http://localhost:8080/employees}">[[#{lang_button_back}]]</a>
 </body>
 </html>

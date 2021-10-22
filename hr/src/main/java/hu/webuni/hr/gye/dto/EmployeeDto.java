@@ -9,7 +9,6 @@ public class EmployeeDto {
 	private String name;
 	private String position;
 	private Integer salary;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime startWork;
 	
 	public EmployeeDto() {
@@ -56,5 +55,7 @@ public class EmployeeDto {
 		this.startWork = startWork;
 	}	
 	
-	
+	public String toString() { 
+	    return "Name: '" + this.name + "', Employee Id: '" + this.employeeID + "', Position: '" + this.position + "'" + "', Salary: '" + this.salary + "'" + "', Working start: '" + this.startWork.toString() + "'";
+	} 
 }

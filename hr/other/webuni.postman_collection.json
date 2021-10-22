@@ -6,385 +6,564 @@
 	},
 	"item": [
 		{
-			"name": "postEmployee",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "employee",
+			"item": [
+				{
+					"name": "allEmployees",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/employees",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"employees"
-					]
+				{
+					"name": "oneEmployee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allEmployeesBySalary",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees?salary=2300",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "salary",
+									"value": "2300"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modifyEmployee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"employeeID\": 8,\r\n        \"name\": \"Próba Róza81\",\r\n        \"position\": \"tester\",\r\n        \"salary\": 9999,\r\n        \"startWork\": \"2020-05-22T19:30:40\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEmployee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPayRaise",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2009-02-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/payraise",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"payraise"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "postAddEmployeeToCompany",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "company",
+			"item": [
+				{
+					"name": "allCompaniesWithoutEmployee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/2/employees",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"2",
-						"employees"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "postCompany",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 3,\r\n            \"name\": \"Teszt Elek\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 1000,\r\n            \"startWork\": \"2011-01-15T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 2,\r\n            \"city\": \"Szolnok\",\r\n            \"zip\": \"5000\",\r\n            \"street\": \"Petőfi utca\",\r\n            \"houseNumber\": \"5\",\r\n            \"type\": \"levelezés\"\r\n        }\r\n    ],\r\n    \"companyId\": 4\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "allCompaniesWithEmployee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies?full=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies"
+							],
+							"query": [
+								{
+									"key": "full",
+									"value": "true"
+								}
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "allEmployees",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "oneCompanieWithoutEmployee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"2"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/employees?salary=2300",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"employees"
-					],
-					"query": [
-						{
-							"key": "salary",
-							"value": "2300"
+				{
+					"name": "oneCompanieWithEmployee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/2?full=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"2"
+							],
+							"query": [
+								{
+									"key": "full",
+									"value": "true"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "allCompanies",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies?full=true",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies"
-					],
-					"query": [
-						{
-							"key": "full",
-							"value": "true"
+				{
+					"name": "postCompany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 3,\r\n            \"name\": \"Teszt Elek\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 1000,\r\n            \"startWork\": \"2011-01-15T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 2,\r\n            \"city\": \"Szolnok\",\r\n            \"zip\": \"5000\",\r\n            \"street\": \"Petőfi utca\",\r\n            \"houseNumber\": \"5\",\r\n            \"type\": \"levelezés\"\r\n        }\r\n    ],\r\n    \"companyId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getPayRaise",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2000-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/payraise",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"payraise"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "modifyEmployee",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n        \"employeeID\": 8,\r\n        \"name\": \"Próba Róza81\",\r\n        \"position\": \"tester\",\r\n        \"salary\": 9999,\r\n        \"startWork\": \"2020-05-22T19:30:40\"\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "modifyCompany",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"MindenIT Bt. \",\r\n    \"registrationNumber\": \"11111-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        }\r\n    ],\r\n    \"companyId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/employees/8",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"employees",
-						"8"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "modifyCompany",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"MindenIT Bt. \",\r\n    \"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 1,\r\n            \"name\": \"Teszt Elek\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 1000,\r\n            \"startWork\": \"2011-01-15T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adress\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 2,\r\n            \"city\": \"Szolnok\",\r\n            \"zip\": \"5000\",\r\n            \"street\": \"Petőfi utca\",\r\n            \"houseNumber\": \"5\",\r\n            \"type\": \"levelezés\"\r\n        }\r\n    ],\r\n    \"companyId\": 3\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "deleteCompany",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"2"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/3",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "modifyEmployeeOfCompany",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "[\r\n            {\r\n                \"employeeID\": 9,\r\n                \"name\": \"Próba egy\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 1000,\r\n                \"startWork\": \"2011-01-15T19:30:40\"\r\n            },\r\n            {\r\n                \"employeeID\": 10,\r\n                \"name\": \"Próba Róza\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 3000,\r\n                \"startWork\": \"2019-05-22T19:30:40\"\r\n            }\r\n]",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "postAddEmployeeToCompany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/1/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"1",
+								"employees"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/2/employees",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"2",
-						"employees"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteEmployee",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "deleteEmployeeFromCompany",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\": 8,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/1/employees/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"1",
+								"employees",
+								"8"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/employees/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"employees",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteCompany",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "modifyEmployeeOfCompany",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n            {\r\n                \"employeeID\": 9,\r\n                \"name\": \"Próba egy\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 1000,\r\n                \"startWork\": \"2011-01-15T19:30:40\"\r\n            },\r\n            {\r\n                \"employeeID\": 10,\r\n                \"name\": \"Próba Róza\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 3000,\r\n                \"startWork\": \"2019-05-22T19:30:40\"\r\n            }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies/2/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"2",
+								"employees"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"2"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteEmployeeFromCompany",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"employeeID\": 8,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/companies/2/employees/8",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"companies",
-						"2",
-						"employees",
-						"8"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	]
 }

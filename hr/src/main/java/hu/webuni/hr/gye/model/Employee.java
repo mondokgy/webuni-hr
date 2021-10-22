@@ -12,7 +12,6 @@ public class Employee {
 	String name;
 	String position;
 	Integer salary;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime startWork;	
 		
 	public Employee() {

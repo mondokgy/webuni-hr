@@ -49,13 +49,14 @@ public class EmployeeController {
 		}else {
 			log.debug("salary not null:*"+salary+"*, return filtered employees");
 			
-			List<EmployeeDto> candidateEmployee = new ArrayList<>(employees.values());
-
-			for(EmployeeDto employee : candidateEmployee) {
+			List<EmployeeDto> candidateEmployee = new ArrayList<>();
+			List<EmployeeDto> allEmployee = new ArrayList<>(employees.values());
+			
+			for(EmployeeDto employee : allEmployee) {
 				log.debug("ciklus, id:*"+employee.getEmployeeID()+"*");
-				if(employee.getSalary()<=salary) {
-					log.debug("Filtered by Salary.");
-					candidateEmployee.remove(employee);
+				if(employee.getSalary()>salary) {
+					log.debug("add to list.");
+					candidateEmployee.add(employee);
 				}
 			}
 			
