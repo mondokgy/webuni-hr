@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import hu.webuni.hr.gye.dto.EmployeeDto;
 
@@ -66,7 +68,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<EmployeeDto> getById(@PathVariable Long id){
+	public EmployeeDto getById(@PathVariable Long id){
 		
 		log.debug("restapi controller, /{id}, get, getById start");
 		
@@ -74,16 +76,17 @@ public class EmployeeController {
 		
 		if(employeeDto != null) {
 			log.debug("restapi controller, /{id}, get, getById end");
-			return ResponseEntity.ok(employeeDto);
+			return employeeDto;
 		}else {
+			log.debug("Invalid input: employeeDto.");
 			log.debug("restapi controller, /{id}, get, getById end");
-			return ResponseEntity.notFound().build();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@PostMapping
-	public EmployeeDto createEmployee(@RequestBody EmployeeDto employeeDto) {
+	public EmployeeDto createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
 		
 		log.debug("restapi controller, /, post, createEmployee start");
 		
@@ -95,24 +98,24 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
+	public EmployeeDto modifyEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDto employeeDto) {
 		
 		log.debug("restapi controller, /{id}, put, modifyEmployee start");
 		
-		if(!employees.containsKey(id)) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		employeeDto.setEmployeeID(id);
-		employees.put(id, employeeDto);
-		
-		log.debug("restapi controller, /{id}, put, modifyEmployee end");
-		
-		return ResponseEntity.ok(employeeDto);
+		if(employees.containsKey(id)) {
+			employeeDto.setEmployeeID(id);
+			employees.put(id, employeeDto);
+			log.debug("restapi controller, /{id}, put, modifyEmployee end");
+			return employeeDto;
+		}else {
+			log.debug("Invalid input: employeeDto.");
+			log.debug("restapi controller, /{id}, put, modifyEmployee end");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}	
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<EmployeeDto> deleteEmployee(@PathVariable Long id) {
+	public EmployeeDto deleteEmployee(@PathVariable Long id) {
 		
 		log.debug("restapi controller, /{id}, delete, deleteEmployee start");
 		
@@ -121,10 +124,11 @@ public class EmployeeController {
 		if(employeeDto != null) {
 			employees.remove(id);
 			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
-			return ResponseEntity.ok(employeeDto);
+			return employeeDto;
 		}else {
-			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
-			return ResponseEntity.notFound().build();
+			log.debug("Invalid input: employeeDto.");
+			log.debug("restapi controller, /{id}, get, getById end");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}	
 	}
 	

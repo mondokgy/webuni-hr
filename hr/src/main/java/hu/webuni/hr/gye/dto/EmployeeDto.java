@@ -2,13 +2,19 @@ package hu.webuni.hr.gye.dto;
 
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
 
 public class EmployeeDto {
 	private Long employeeID;
+	@NotEmpty(message = "Name cannot be null")
 	private String name;
+	@NotEmpty(message = "Position cannot be null")
 	private String position;
+	@Positive(message = "Position cannot be null")
 	private Integer salary;
+	@Past
 	private LocalDateTime startWork;
 	
 	public EmployeeDto() {
