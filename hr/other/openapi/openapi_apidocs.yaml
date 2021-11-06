@@ -1,0 +1,376 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/employees/{id}:
+    get:
+      tags:
+      - employee-controller
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+    put:
+      tags:
+      - employee-controller
+      operationId: modifyEmployee
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+    delete:
+      tags:
+      - employee-controller
+      operationId: deleteEmployee
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+  /api/companies/{id}:
+    get:
+      tags:
+      - company-controller
+      operationId: getById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: full
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+    put:
+      tags:
+      - company-controller
+      operationId: modifyEmployee_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+    delete:
+      tags:
+      - company-controller
+      operationId: deleteCompany
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+  /api/companies/{id}/employees:
+    put:
+      tags:
+      - company-controller
+      operationId: replaceEmployeesOfCompany
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+    post:
+      tags:
+      - company-controller
+      operationId: addEmployeeToCompany
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+  /api/employees:
+    get:
+      tags:
+      - employee-controller
+      operationId: getAll
+      parameters:
+      - name: salary
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+    post:
+      tags:
+      - employee-controller
+      operationId: createEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+  /api/companies:
+    get:
+      tags:
+      - company-controller
+      operationId: getAll_1
+      parameters:
+      - name: full
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyDto'
+    post:
+      tags:
+      - company-controller
+      operationId: createCompany
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+  /api/companies/payraise:
+    get:
+      tags:
+      - company-controller
+      operationId: getPayRaise
+      parameters:
+      - name: employee
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Employee'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+  /api/companies/{id}/employees/{employeeId}:
+    delete:
+      tags:
+      - company-controller
+      operationId: deleteEmployeeFromCompany
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: employeeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+components:
+  schemas:
+    EmployeeDto:
+      required:
+      - name
+      - position
+      type: object
+      properties:
+        employeeID:
+          type: integer
+          format: int64
+        name:
+          type: string
+        position:
+          type: string
+        salary:
+          type: integer
+          format: int32
+        startWork:
+          type: string
+          format: date-time
+    Address:
+      type: object
+      properties:
+        addressId:
+          type: integer
+          format: int64
+        city:
+          type: string
+        zip:
+          type: string
+        street:
+          type: string
+        houseNumber:
+          type: string
+        type:
+          type: string
+    CompanyDto:
+      type: object
+      properties:
+        companyId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        registrationNumber:
+          type: string
+        employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+        adresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+    Employee:
+      type: object
+      properties:
+        employeeID:
+          type: integer
+          format: int64
+        name:
+          type: string
+        position:
+          type: string
+        salary:
+          type: integer
+          format: int32
+        startWork:
+          type: string
+          format: date-time

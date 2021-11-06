@@ -2,6 +2,7 @@ package hu.webuni.hr.gye.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import hu.webuni.hr.gye.config.HrListConfigProperties;
 import hu.webuni.hr.gye.model.Employee;
 
 @Service("smart")
-public class SmartEmployeeService implements EmployeeService {
+public class SmartEmployeeService extends AbstractEmployeeService {
 	
 //	@Autowired
 //	HrConfigProperties config;
@@ -95,5 +96,6 @@ public class SmartEmployeeService implements EmployeeService {
 
 	}
 
+	
 }
 

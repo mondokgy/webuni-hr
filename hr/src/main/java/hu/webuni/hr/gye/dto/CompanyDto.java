@@ -3,32 +3,33 @@ package hu.webuni.hr.gye.dto;
 import java.util.List;
 
 import hu.webuni.hr.gye.model.Address;
+import hu.webuni.hr.gye.model.Employee;
 
 public class CompanyDto {
 
 	Long companyId;
 	String name;
 	String registrationNumber;
-	List<EmployeeDto> employees;
+	List<Employee> employees;
 	List<Address> adresses;
 
-	public CompanyDto(Long companyId, String name, String registrationNumber, List<EmployeeDto> employees, List<Address> adesress) {
+	public CompanyDto(Long companyId, String name, String registrationNumber, List<Employee> employees, List<Address> addresses) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
 		this.registrationNumber = registrationNumber;
-		this.adresses = adesress;
+		this.adresses = addresses;
 		this.employees = employees;
 	}
 	
-	public CompanyDto(CompanyDto otherCompany) {
-		super();
-		this.companyId = otherCompany.getCompanyId();
-		this.name = otherCompany.getName();
-		this.registrationNumber = otherCompany.getRegistrationNumber();
-		this.adresses = otherCompany.getAdresses();
-		this.employees = otherCompany.getEmployees();
-	}
+//	public CompanyDto(CompanyDto otherCompany) {
+//		super();
+//		this.companyId = otherCompany.getCompanyId();
+//		this.name = otherCompany.getName();
+//		this.registrationNumber = otherCompany.getRegistrationNumber();
+//		this.adresses = otherCompany.getAdresses();
+//		this.employees = otherCompany.getEmployees();
+//	}
 	
 	public Long getCompanyId() {
 		return companyId;
@@ -54,10 +55,10 @@ public class CompanyDto {
 	public void setAdresses(List<Address> adresses) {
 		this.adresses = adresses;
 	}
-	public List<EmployeeDto> getEmployees() {
+	public List<Employee> getEmployees() {
 		return employees;
 	}
-	public void setEmployees(List<EmployeeDto> employees) {
+	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
 	}	
 	

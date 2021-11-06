@@ -1,11 +1,7 @@
 package hu.webuni.hr.gye.web;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hu.webuni.hr.gye.dto.CompanyDto;
 import hu.webuni.hr.gye.dto.EmployeeDto;
-import hu.webuni.hr.gye.model.Address;
+import hu.webuni.hr.gye.mapper.CompanyMapper;
+import hu.webuni.hr.gye.mapper.EmployeeMapper;
+import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.service.CompanyService;
 import hu.webuni.hr.gye.service.EmployeeService;
 
 @RestController
@@ -34,28 +33,17 @@ public class CompanyController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	@Autowired
+	private CompanyService companyService;
+	
+	@Autowired
+	private CompanyMapper companyMapper;
+	
+	@Autowired
+	private EmployeeMapper employeeMapper;
+	
 	private static final Logger log = LoggerFactory.getLogger("LOG");
-	
-	private Map<Long, CompanyDto> companies = new HashMap<>();
-	
-	{		
-		Address address1 = new Address(1L,"Budapest","1111","Kossuth utca","10","telephely");
-		Address address2 = new Address(2L,"Szolnok","5000", "Petőfi utca", "5", "levelezés");
-		
-		List<Address> listAddress = new ArrayList<Address>();
-		List<EmployeeDto> listEmployees = new ArrayList<EmployeeDto>();
-		
-		listAddress.add(address1);
-		listAddress.add(address2);
-		
-		listEmployees.add(new EmployeeDto(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40)));		
-		listEmployees.add(new EmployeeDto(2L,"Próba Róza", "tester", 3000, LocalDateTime.of(2019,Month.MAY, 22, 19, 30, 40)));
-		
-		List<EmployeeDto> listEmployees2 = new ArrayList<EmployeeDto>(listEmployees);
-		
-		companies.put(1L,new CompanyDto(1L,"Kódoló Kft.", "123456-t", listEmployees, listAddress));		
-		companies.put(2L,new CompanyDto(2L,"MindenIT Bt. ", "976578-a", listEmployees2, listAddress));
-	}
+
 	
 	@GetMapping
 	public List<CompanyDto> getAll(@RequestParam(required = false) Boolean full){
@@ -65,31 +53,31 @@ public class CompanyController {
 		if(full == null || !full) {
 			log.debug("Full is null or false, return without employee.");
 			
-			List<CompanyDto> allCompanies = new ArrayList<>(companies.values());
-			List<CompanyDto> companiesWithOutEmployee = new ArrayList<>();
+			List<Company> allCompanies = companyService.findAll();
+			List<Company> companiesWithOutEmployee = new ArrayList<>();
 			
-			for(CompanyDto company : allCompanies) {
+			for(Company company : allCompanies) {
 				log.debug("ciklus, id:*"+company.getCompanyId()+"*");
 				
-				CompanyDto newCompanyDto = fileterEmployees(company);
+				Company newCompany = fileterEmployees(company);
 				
-				companiesWithOutEmployee.add(newCompanyDto);
+				companiesWithOutEmployee.add(newCompany);
 			}
 			
 			log.debug("restapi controller, /, get, getAll end");
-			return companiesWithOutEmployee;
+			return companyMapper.companiesToDto(companiesWithOutEmployee);
 		}else {
 			log.debug("Full is true, return filtered companies");
 			log.debug("restapi controller, /, get, getAll end");
 			
-			return new ArrayList<>(companies.values());
+			return companyMapper.companiesToDto(companyService.findAll());
 		}
 	}
 
-	private CompanyDto fileterEmployees(CompanyDto company) {
-		CompanyDto newCompanyDto = new CompanyDto(company);
-		newCompanyDto.setEmployees(null);
-		return newCompanyDto;
+	private Company fileterEmployees(Company company) {
+		Company newCompany = new Company(company.getCompanyId(),company.getName(),company.getRegistrationNumber(),company.getEmployees(),company.getAdresses());
+		newCompany.setEmployees(null);
+		return newCompany;
 	}
 	
 	@GetMapping("/{id}")
@@ -97,14 +85,14 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, get, getById start");
 		
-		CompanyDto companyDto = companies.get(id);
+		Company company = companyService.findById(id);
 		
-		if(companyDto != null) {
+		if(company != null) {
 			log.debug("restapi controller, /{id}, get, getById end");
 			if(full == null || !full) {
-				return ResponseEntity.ok(fileterEmployees(companyDto));
+				return ResponseEntity.ok(companyMapper.companyToDto(fileterEmployees(company)));
 			}else {
-				return ResponseEntity.ok(companyDto);
+				return ResponseEntity.ok(companyMapper.companyToDto(company));
 			}
 			
 		}else {
@@ -119,11 +107,11 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /, post, createCompany start");
 		
-		companies.put(companydto.getCompanyId(), companydto);
+		Company company = companyService.save(companyMapper.dtoToCompany(companydto));
 		
 		log.debug("restapi controller, /, post, createCompany end");
 		
-		return companydto;
+		return companyMapper.companyToDto(company);
 	}
 	
 	@PutMapping("/{id}")
@@ -131,16 +119,17 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, put, modifyCompany start");
 		
-		if(!companies.containsKey(id)) {
+		Company company = companyService.findById(id);
+		
+		if(company == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		companyDto.setCompanyId(id);
-		companies.put(id, companyDto);
-		
+
+		company = companyService.modify(id, company);
+
 		log.debug("restapi controller, /{id}, put, modifyCompany end");
 		
-		return ResponseEntity.ok(companyDto);
+		return ResponseEntity.ok(companyMapper.companyToDto(company));
 	}
 	
 		
@@ -149,12 +138,12 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, delete, deleteCompany start");
 		
-		CompanyDto companyDto = companies.get(id);
+		Company company = companyService.findById(id);
 		
-		if(companyDto != null) {
-			companies.remove(id);
+		if(company != null) {
+			company = companyService.delete(id);
 			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
-			return ResponseEntity.ok(companyDto);
+			return ResponseEntity.ok(companyMapper.companyToDto(company));
 		}else {
 			log.debug("restapi controller, /{id}, delete, deleteCompany end");
 			return ResponseEntity.notFound().build();
@@ -166,12 +155,12 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}/employees, post, addEmployeeToCompany start");
 		
-		CompanyDto companyDto = companies.get(id);
-		if(companyDto != null) {
-			List<EmployeeDto> employeeList = companyDto.getEmployees();
-			employeeList.add(employeeDto);
-			companyDto.setEmployees(employeeList);
-			return ResponseEntity.ok(companyDto);
+		Company company = companyService.findById(id);
+		if(company != null) {
+			List<Employee> employeeList = company.getEmployees();
+			employeeList.add(employeeMapper.dtoToEmployee(employeeDto));
+			company.setEmployees(employeeList);
+			return ResponseEntity.ok(companyMapper.companyToDto(company));
 		}else {
 			log.debug("restapi controller, /{id}/employees, post, addEmployeeToCompany end");
 			return ResponseEntity.notFound().build();
@@ -184,13 +173,14 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany start");
 		
-		CompanyDto companyDto = companies.get(id);
+		Company company = companyService.findById(id);
 		
-		if(companyDto != null) {
-			List<EmployeeDto> employeeList = companyDto.getEmployees();
+		if(company != null) {
+			List<Employee> employeeList = company.getEmployees();
 			employeeList.removeIf(employee -> employee.getEmployeeID().equals(employeeId));
+			company.setEmployees(employeeList);
 			log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany end");
-			return ResponseEntity.ok(companyDto);
+			return ResponseEntity.ok(companyMapper.companyToDto(company));
 		}else {
 			log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany end");
 			return ResponseEntity.notFound().build();
@@ -202,14 +192,14 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany start");
 		
-		CompanyDto companyDto = companies.get(id);
+		Company company = companyService.findById(id);
 		
-		if(companyDto != null) {
+		if(company != null) {
 			
-			companyDto.setEmployees(listEmployees);
+			company.setEmployees(employeeMapper.dtoToEmployees(listEmployees));
 			
 			log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany end");
-			return ResponseEntity.ok(companyDto);
+			return ResponseEntity.ok(companyMapper.companyToDto(company));
 		}else {
 			log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany end");
 			return ResponseEntity.notFound().build();
