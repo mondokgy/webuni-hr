@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,16 +55,27 @@ public class CompanyService {
 	}
 		
 	public Company delete(Long id) {
-		Company company = companies.get(id);
-		companies.remove(id);
-		return company;
+		
+		if(findById(id)!=null) {	
+			Company company = companies.get(id);
+			companies.remove(id);
+			return company;
+		}
+		else
+			throw new NoSuchElementException();
 	}
 	
 	public Company modify(Long id, Company changedCompany) {
-		log.debug("called AbstractEmployeeService.modify()");
-		changedCompany.setCompanyId(id);
-		companies.put(id, changedCompany);
-		Company company = companies.get(id);
-		return company;
+		log.debug("called CompanyService.modify()");
+
+		if(findById(id)!=null) {	
+			changedCompany.setCompanyId(id);
+			companies.put(id, changedCompany);
+			Company company = companies.get(id);
+			return company;
+		}
+		else
+			throw new NoSuchElementException();
 	}
+		
 }

@@ -2,13 +2,20 @@ package hu.webuni.hr.gye.model;
 
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.springframework.stereotype.Component;
 
+@Entity
 @Component
 public class Employee {
 	
+	@Id
+	@GeneratedValue
 	Long employeeID;
+	
 	String name;
 	String position;
 	Integer salary;

@@ -26,8 +26,22 @@ public class EmployeeControllerIT {
 	WebTestClient webTestClient;
 	@Test
 	void testThatValidEmployeeCreated() throws Exception{
-		createEmployee(getTestEmployeeDto(true,""))
+		List<EmployeeDto> allEmployeeBefore = getAllEmployees();
+		
+		EmployeeDto newEmployee = getTestEmployeeDto(true,"");
+		
+		createEmployee(newEmployee)
 			.expectStatus().isOk();
+		List<EmployeeDto> allEmployeeAfter = getAllEmployees();
+		
+		assertThat(allEmployeeAfter.subList(0, allEmployeeBefore.size()))
+		.usingRecursiveFieldByFieldElementComparator()
+		.containsExactlyElementsOf(allEmployeeBefore);
+	
+		assertThat(allEmployeeAfter.get(allEmployeeAfter.size()-1))
+		.usingRecursiveComparison()
+		.ignoringFields("employeeID")
+		.isEqualTo(newEmployee);
 	}
 
 	@Test
@@ -110,7 +124,7 @@ public class EmployeeControllerIT {
 		EmployeeDto employeeDto;
 		
 		if(isValid) {
-			employeeDto = new EmployeeDto(3L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
+			employeeDto = new EmployeeDto(null,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
 		}else {
 		 switch(invalidType)
 	        {

@@ -11,14 +11,14 @@ public class CompanyDto {
 	String name;
 	String registrationNumber;
 	List<Employee> employees;
-	List<Address> adresses;
+	List<Address> addresses;
 
 	public CompanyDto(Long companyId, String name, String registrationNumber, List<Employee> employees, List<Address> addresses) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
 		this.registrationNumber = registrationNumber;
-		this.adresses = addresses;
+		this.addresses = addresses;
 		this.employees = employees;
 	}
 	
@@ -50,10 +50,10 @@ public class CompanyDto {
 		this.registrationNumber = registrationNumber;
 	}
 	public List<Address> getAdresses() {
-		return adresses;
+		return addresses;
 	}
-	public void setAdresses(List<Address> adresses) {
-		this.adresses = adresses;
+	public void setAdresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 	public List<Employee> getEmployees() {
 		return employees;
