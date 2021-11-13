@@ -65,7 +65,9 @@ public class Employee {
 		this.startWork = startWork;
 	}
 
-	public String toString() { 
-	    return "Name: '" + this.name + "', Employee Id: '" + this.employeeID + "', Position: '" + this.position + "'" + "', Salary: '" + this.salary + "'" + "', Working start: '" + this.startWork.toString() + "'";
+	@Override
+	public String toString() {
+		return "Employee [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary=" + salary
+				+ ", startWork=" + startWork + "]";
 	} 
 }

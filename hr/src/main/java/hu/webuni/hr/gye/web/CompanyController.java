@@ -69,21 +69,14 @@ public class CompanyController {
 		
 		log.debug("restapi controller, /{id}, get, getById start");
 		
-		Company company = companyService.findById(id);
+		Company company = companyService.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
 		
-		if(company != null) {
-			log.debug("restapi controller, /{id}, get, getById end");
+		log.debug("restapi controller, /{id}, get, getById end");
 			if(full == null || !full) {
 				return ResponseEntity.ok(companyMapper.companyToDtoWithOutEmployee(company));
 			}else {
 				return ResponseEntity.ok(companyMapper.companyToDto(company));
-			}
-			
-		}else {
-			log.debug("restapi controller, /{id}, get, getById end");
-			return ResponseEntity.notFound().build();
 		}
-		
 	}
 	
 	@PostMapping
@@ -99,7 +92,7 @@ public class CompanyController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<CompanyDto> modifyEmployee(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
+	public ResponseEntity<CompanyDto> modifyCompany(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
 		
 		log.debug("restapi controller, /{id}, put, modifyCompany start");
 
@@ -110,82 +103,59 @@ public class CompanyController {
 		}catch (NoSuchElementException e) {
 			log.debug("restapi controller, /{id}, put, Not_Found, modifyCompany end");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
-		
+		}		
 	}
-	
-		
+			
 	@DeleteMapping("/{id}")
-	public ResponseEntity<CompanyDto> deleteCompany(@PathVariable Long id) {
+	public void deleteCompany(@PathVariable Long id) {
 		
 		log.debug("restapi controller, /{id}, delete, deleteCompany start");
-
 		try {
-			Company company = companyService.delete(id);
-			log.debug("restapi controller, /{id}, delete, deleteEmployee end");
-			return ResponseEntity.ok(companyMapper.companyToDto(company));
+			companyService.delete(id);
 		}catch (NoSuchElementException e) {
-			log.debug("restapi controller, /{id}, delete, deleteCompany end");
+			log.debug("restapi controller, /{id}, put, Not_Found, modifyCompany end");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}		
-		
+		}
+		log.debug("restapi controller, /{id}, delete, deleteEmployee end");
+						
 	}
 	
 	@PostMapping("/{id}/employees")
 	public ResponseEntity<CompanyDto> addEmployeeToCompany(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
 		
 		log.debug("restapi controller, /{id}/employees, post, addEmployeeToCompany start");
-		
-		Company company = companyService.findById(id);
-		if(company != null) {
-			List<Employee> employeeList = company.getEmployees();
-			employeeList.add(employeeMapper.dtoToEmployee(employeeDto));
-			company.setEmployees(employeeList);
-			return ResponseEntity.ok(companyMapper.companyToDto(company));
-		}else {
-			log.debug("restapi controller, /{id}/employees, post, addEmployeeToCompany end");
-			return ResponseEntity.notFound().build();
-		}
-		
+		try {
+			return ResponseEntity.ok(companyMapper.companyToDto(companyService.addEmployee(id, employeeMapper.dtoToEmployee(employeeDto))));
+		}catch (NoSuchElementException e) {
+			log.debug("restapi controller, /{id}, delete, deleteCompany end");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}				
 	}
 	
 	@DeleteMapping("/{id}/employees/{employeeId}")
 	public ResponseEntity<CompanyDto> deleteEmployeeFromCompany(@PathVariable Long id, @PathVariable Long employeeId) {
 		
 		log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany start");
+		try {
+			return ResponseEntity.ok(companyMapper.companyToDto(companyService.deleteEmployee(id, employeeId)));
+		}catch (NoSuchElementException e) {
+			log.debug("restapi controller, /{id}, delete, deleteCompany end");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 		
-		Company company = companyService.findById(id);
-		
-		if(company != null) {
-			List<Employee> employeeList = company.getEmployees();
-			employeeList.removeIf(employee -> employee.getEmployeeID().equals(employeeId));
-			company.setEmployees(employeeList);
-			log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany end");
-			return ResponseEntity.ok(companyMapper.companyToDto(company));
-		}else {
-			log.debug("restapi controller, /{id}, delete, deleteEmployeeFromCompany end");
-			return ResponseEntity.notFound().build();
-		}	
 	}
 	
 	@PutMapping("/{id}/employees")
 	public ResponseEntity<CompanyDto> replaceEmployeesOfCompany(@PathVariable Long id, @RequestBody List<EmployeeDto> listEmployees) {
 		
 		log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany start");
-		
-		Company company = companyService.findById(id);
-		
-		if(company != null) {
-			
-			company.setEmployees(employeeMapper.dtoToEmployees(listEmployees));
-			
-			log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany end");
-			return ResponseEntity.ok(companyMapper.companyToDto(company));
-		}else {
-			log.debug("restapi controller, /{id}, put, replaceEmployeesOfCompany end");
-			return ResponseEntity.notFound().build();
+		try {
+			return ResponseEntity.ok(companyMapper.companyToDto(companyService.modifyEmployee(id, employeeMapper.dtoToEmployees(listEmployees))));
+		}catch (NoSuchElementException e) {
+			log.debug("restapi controller, /{id}, delete, deleteCompany end");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
-		
+
 
 	}
 	

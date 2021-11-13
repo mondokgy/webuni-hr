@@ -58,7 +58,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/2",
+							"raw": "http://localhost:8080/api/employees/48",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -67,7 +67,7 @@
 							"path": [
 								"api",
 								"employees",
-								"2"
+								"48"
 							]
 						}
 					},
@@ -91,7 +91,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees?salary=2300",
+							"raw": "http://localhost:8080/api/employees?salary=9000",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -104,7 +104,7 @@
 							"query": [
 								{
 									"key": "salary",
-									"value": "2300"
+									"value": "9000"
 								}
 							]
 						}
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Date Test\",\r\n    \"position\":\"c\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2012-03-12T19:30:40\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -147,7 +147,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"employeeID\": 8,\r\n        \"name\": \"Próba Róza81\",\r\n        \"position\": \"tester\",\r\n        \"salary\": 9999,\r\n        \"startWork\": \"2020-05-22T19:30:40\"\r\n    }",
+							"raw": "{\r\n        \r\n        \"name\": \"abcdefg\",\r\n        \"position\": \"123456\",\r\n        \"salary\": 9999000,\r\n        \"startWork\": \"2021-10-22T19:30:40\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,7 +155,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/8",
+							"raw": "http://localhost:8080/api/employees/49",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -164,7 +164,7 @@
 							"path": [
 								"api",
 								"employees",
-								"8"
+								"49"
 							]
 						}
 					},
@@ -185,7 +185,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/2",
+							"raw": "http://localhost:8080/api/employees/49",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -194,7 +194,7 @@
 							"path": [
 								"api",
 								"employees",
-								"2"
+								"49"
 							]
 						}
 					},
@@ -210,7 +210,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2009-02-22T19:30:40\"\r\n}",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2021-02-22T19:30:40\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,7 +218,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/payraise",
+							"raw": "http://localhost:8080/api/employees/payraise",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -226,8 +226,94 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"companies",
+								"employees",
 								"payraise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allEmployeesByPosition",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees?position=tester",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "position",
+									"value": "tester"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allEmployeesByStartOfName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees?namePrefix=P",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "namePrefix",
+									"value": "P"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allEmployeesByStartDateBetween",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees?startFrom=2011-05-22 19:30:40&startTo=2021-05-22 19:30:39&=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "startFrom",
+									"value": "2011-05-22 19:30:40"
+								},
+								{
+									"key": "startTo",
+									"value": "2021-05-22 19:30:39"
+								},
+								{
+									"key": "",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -387,7 +473,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 3,\r\n            \"name\": \"Teszt Elek\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 1000,\r\n            \"startWork\": \"2011-01-15T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 2,\r\n            \"city\": \"Szolnok\",\r\n            \"zip\": \"5000\",\r\n            \"street\": \"Petőfi utca\",\r\n            \"houseNumber\": \"5\",\r\n            \"type\": \"levelezés\"\r\n        }\r\n    ],\r\n    \"companyId\": 4\r\n}",
+							"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 10,\r\n            \"name\": \"abcdefg\",\r\n            \"position\": \"123456\",\r\n            \"salary\": 9999000,\r\n            \"startWork\": \"2021-10-22T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 11,\r\n            \"name\": \"abcdefg\",\r\n            \"position\": \"123456\",\r\n            \"salary\": 9999000,\r\n            \"startWork\": \"2021-10-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 32,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1114\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 35,\r\n            \"city\": \"telephely\",\r\n            \"zip\": \"1115\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": null\r\n        }\r\n    ],\r\n    \"companyId\": 5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,7 +502,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"MindenIT Bt. \",\r\n    \"registrationNumber\": \"11111-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 2,\r\n            \"name\": \"Próba Róza\",\r\n            \"position\": \"tester\",\r\n            \"salary\": 3000,\r\n            \"startWork\": \"2019-05-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 1,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1111\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        }\r\n    ],\r\n    \"companyId\": 1\r\n}",
+							"raw": "{\r\n    \"name\": \"MindenIT Bt. \",\r\n    \"registrationNumber\": \"11111-a\",\r\n    \"employees\": [\r\n        {\r\n        \"employeeID\": 6,\r\n        \"name\": \"A\",\r\n        \"position\": \"c\",\r\n        \"salary\": 3000,\r\n        \"startWork\": \"2021-05-22T19:30:40\"\r\n    }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n        \"addressId\": 29,\r\n        \"city\": \"Budapest\",\r\n        \"zip\": \"1111\",\r\n        \"street\": \"Kossuth utca\",\r\n        \"houseNumber\": \"10\",\r\n        \"type\": \"telephely\"\r\n    }\r\n    ],\r\n    \"companyId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -424,7 +510,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/1",
+							"raw": "http://localhost:8080/api/companies/44",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -433,7 +519,7 @@
 							"path": [
 								"api",
 								"companies",
-								"1"
+								"44"
 							]
 						}
 					},
@@ -454,7 +540,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/2",
+							"raw": "http://localhost:8080/api/companies/470",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -463,7 +549,7 @@
 							"path": [
 								"api",
 								"companies",
-								"2"
+								"470"
 							]
 						}
 					},
@@ -476,7 +562,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employeeID\":8,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"raw": "{\r\n    \"employeeID\":11,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -484,7 +570,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/1/employees",
+							"raw": "http://localhost:8080/api/companies/49/employees",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -493,7 +579,7 @@
 							"path": [
 								"api",
 								"companies",
-								"1",
+								"49",
 								"employees"
 							]
 						}
@@ -507,7 +593,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employeeID\": 8,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"raw": "            {\r\n                \"employeeID\": 11,\r\n                \"name\": \"abcdefg\",\r\n                \"position\": \"123456\",\r\n                \"salary\": 9999000,\r\n                \"startWork\": \"2021-10-22T19:30:40\"\r\n            }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -515,7 +601,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/1/employees/8",
+							"raw": "http://localhost:8080/api/companies/45/employees/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -524,9 +610,9 @@
 							"path": [
 								"api",
 								"companies",
-								"1",
+								"45",
 								"employees",
-								"8"
+								"11"
 							]
 						}
 					},
@@ -539,7 +625,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n            {\r\n                \"employeeID\": 9,\r\n                \"name\": \"Próba egy\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 1000,\r\n                \"startWork\": \"2011-01-15T19:30:40\"\r\n            },\r\n            {\r\n                \"employeeID\": 10,\r\n                \"name\": \"Próba Róza\",\r\n                \"position\": \"tester\",\r\n                \"salary\": 3000,\r\n                \"startWork\": \"2019-05-22T19:30:40\"\r\n            }\r\n]",
+							"raw": "[\r\n            {\r\n                \"employeeID\": 7,\r\n                \"name\": \"A\",\r\n                \"position\": \"c\",\r\n                \"salary\": 3000,\r\n                \"startWork\": \"2021-05-22T19:30:40\"\r\n            },\r\n            {\r\n                \"employeeID\": 8,\r\n                \"name\": \"A\",\r\n                \"position\": \"c\",\r\n                \"salary\": 3000,\r\n                \"startWork\": \"2021-05-22T19:30:40\"\r\n            }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -547,7 +633,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/2/employees",
+							"raw": "http://localhost:8080/api/companies/46/employees",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -556,8 +642,167 @@
 							"path": [
 								"api",
 								"companies",
-								"2",
+								"46",
 								"employees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "allAddresses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "oneAddress",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/addresses/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addresses",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postAddress",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\":\"Budapest\",\r\n    \"zip\":\"1115\",\r\n    \"street\":\"Kossuth utca\",\r\n    \"houseNumber\":\"10\",\r\n    \"type\":\"telephely\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modifyAddress",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"addressId\": 31,\r\n    \"city\": \"Budapest\",\r\n    \"zip\": \"1119\",\r\n    \"street\": \"Kossuth utca\",\r\n    \"houseNumber\": \"10\",\r\n    \"type\": \"telephely\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/addresses/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addresses",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAddress",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\":\"Budapest\",\r\n    \"zip\":\"1115\",\r\n    \"street\":\"Kossuth utca\",\r\n    \"houseNumber\":\"10\",\r\n    \"type\":\"telephely\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/addresses/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addresses",
+								"31"
 							]
 						}
 					},

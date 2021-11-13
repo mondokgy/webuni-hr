@@ -1,7 +1,9 @@
 package hu.webuni.hr.gye.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import hu.webuni.hr.gye.dto.EmployeeDto;
+import hu.webuni.hr.gye.exception.TooManyRequestParamsException;
 import hu.webuni.hr.gye.mapper.EmployeeMapper;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.service.EmployeeService;
@@ -40,33 +43,60 @@ public class EmployeeController {
 	private EmployeeMapper employeeMapper;
 	
 	@GetMapping
-	public List<EmployeeDto> getAll(@RequestParam(required = false) Long salary){
+	public List<EmployeeDto> getAll(@RequestParam(required = false) String salary, 
+									@RequestParam(required = false) String position, 
+									@RequestParam(required = false) String namePrefix,
+									@RequestParam(required = false) String startFrom,
+									@RequestParam(required = false) String startTo){
 		
 		log.debug("restapi controller, /, get, getAll start");
-		List<EmployeeDto> allEmployee = employeeMapper.employeesToDto(employeeService.findAll());
 		
-		if(salary == null) {
-			log.debug("Salary null, return all employee.");
-			log.debug("restapi controller, /, get, getAll end");
-			
-			return allEmployee;
-			
-		}else {
-			log.debug("salary not null:*"+salary+"*, return filtered employees");
-			
-			List<EmployeeDto> candidateEmployee = new ArrayList<>();
-			
-			for(EmployeeDto employee : allEmployee) {
-				log.debug("ciklus, id:*"+employee.getEmployeeID()+"*");
-				if(employee.getSalary()>salary) {
-					log.debug("add to list.");
-					candidateEmployee.add(employee);
-				}
-			}
-			
-			log.debug("restapi controller, /, get, getAll end");
-			return candidateEmployee;
+		Map<String,String> reqParams = new HashMap<String,String>();
+		
+		String params = "";
+		
+		if(salary != null) {
+			params = params + "salary:"+salary+";";
+			log.debug("restapi controller, /, get, getAll start");
+			reqParams.put("salary", salary);
 		}
+		if(position != null) {
+			params = params + "position:"+position+";";
+			reqParams.put("position", position);
+		}
+		if(namePrefix != null) {
+			params = params + "namePrefix:"+namePrefix+";";
+			reqParams.put("namePrefix", namePrefix);
+		}		
+		if(startFrom != null) {
+			params = params + "startFrom:"+startFrom+";";
+			if(startTo != null) {	
+				reqParams.put("startDate", startFrom + "_" + startTo);
+			}else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			}
+		}		
+		if(startTo != null) {
+			params = params + "startTo:"+startTo+";";
+			if(startFrom == null) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		log.debug("restapi controller, /, get, getAll params: " + params);
+		
+
+		try {
+			List<EmployeeDto> listEmployee = new ArrayList<EmployeeDto>();
+			
+			listEmployee = employeeMapper.employeesToDto(employeeService.findBy(reqParams));
+			
+			log.debug("restapi controller, /, get, getAll end");
+			return listEmployee;
+		}catch(TooManyRequestParamsException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 	
 	@GetMapping("/{id}")
@@ -74,17 +104,11 @@ public class EmployeeController {
 		
 		log.debug("restapi controller, /{id}, get, getById start");
 		
-		EmployeeDto employeeDto = employeeMapper.employeeToDto(employeeService.findById(id));
+		Employee employee = employeeService.findById(id)
+				.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
 		
-		if(employeeDto != null) {
-			log.debug("restapi controller, /{id}, get, getById end");
-			return employeeDto;
-		}else {
-			log.debug("Invalid input: employeeDto.");
-			log.debug("restapi controller, /{id}, get, getById end");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
-		
+		log.debug("restapi controller, /{id}, get, getById end");
+		return employeeMapper.employeeToDto(employee);
 	}
 	
 	@PostMapping

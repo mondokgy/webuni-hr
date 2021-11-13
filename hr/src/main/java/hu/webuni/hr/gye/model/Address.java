@@ -1,12 +1,25 @@
 package hu.webuni.hr.gye.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
+	
+	@Id
+	@GeneratedValue
 	Long addressId;
+	
 	String city;
 	String zip;
 	String street;
 	String houseNumber;
 	String type;
+	
+	public Address() {
+
+	}
 	
 	public Address(Long addressId, String city, String zip, String street, String houseNumber, String type) {
 		super();
