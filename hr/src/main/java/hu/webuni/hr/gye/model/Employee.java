@@ -4,16 +4,19 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.springframework.stereotype.Component;
 
 @Entity
 @Component
+@SequenceGenerator(name="EMPLOYEE_SEQUENCE_GENERATOR", sequenceName="EMPLOYEE_SEQUENCE", initialValue=1, allocationSize=10)
 public class Employee {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMPLOYEE_SEQUENCE_GENERATOR")
 	Long employeeID;
 	
 	String name;
@@ -22,7 +25,6 @@ public class Employee {
 	LocalDateTime startWork;	
 		
 	public Employee() {
-		this.employeeID = 1L;
 
 	}
 	

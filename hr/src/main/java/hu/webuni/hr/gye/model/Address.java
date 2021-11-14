@@ -2,13 +2,16 @@ package hu.webuni.hr.gye.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@SequenceGenerator(name="ADDRESS_SEQUENCE_GENERATOR", sequenceName="ADDRESS_SEQUENCE", initialValue=1, allocationSize=10)
 public class Address {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ADDRESS_SEQUENCE_GENERATOR")
 	Long addressId;
 	
 	String city;
@@ -68,7 +71,7 @@ public class Address {
 		return type;
 	}
 	public void setType(String type) {
-		this.city = type;
+		this.type = type;
 	}
 	
 	public String getFullAddress(Address adress) {

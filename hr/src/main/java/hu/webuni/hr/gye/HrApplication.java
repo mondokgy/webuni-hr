@@ -6,11 +6,13 @@ import java.time.Month;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.service.InitDbService;
 import hu.webuni.hr.gye.service.SalaryService;
 
 @SpringBootApplication
@@ -21,7 +23,13 @@ public class HrApplication implements CommandLineRunner{
 	SalaryService salaryservice;
 	
 	@Autowired
+	InitDbService initDbService;
+	
+	@Autowired
 	Employee employee;
+	
+	@Value("${hr.db.init:false}")
+	boolean dbInit;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(HrApplication.class, args);
@@ -46,6 +54,19 @@ public class HrApplication implements CommandLineRunner{
 		salaryservice.setNewSalary(employee);
 
 		log.info(employee.getName() + " emelt fizetése: " + employee.getSalary());
+		
+		log.info("Start DB initialization start.");
+		if(dbInit) {
+			log.info("DB init property is true");
+			initDbService.clearDb();
+			initDbService.insertTestData();
+			log.info("DB init success.");
+		}else {
+			log.info("DB init property is false");
+		}
+		log.info("Start DB initialization stop.");
+		
+		
 		log.info("End HR application.");
 		System.out.println(employee.getName() + " eredeti fizetése: " + origSalary + ", emelt fizetése: " + employee.getSalary());
 		System.out.println("End HR application (more information in log).");

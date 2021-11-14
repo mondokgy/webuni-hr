@@ -3,6 +3,7 @@ package hu.webuni.hr.gye.dto;
 import java.util.List;
 
 import hu.webuni.hr.gye.model.Address;
+import hu.webuni.hr.gye.model.Company.CompanyType;
 import hu.webuni.hr.gye.model.Employee;
 
 public class CompanyDto {
@@ -12,6 +13,7 @@ public class CompanyDto {
 	String registrationNumber;
 	List<Employee> employees;
 	List<Address> addresses;
+	CompanyType type;
 
 	public CompanyDto(Long companyId, String name, String registrationNumber, List<Employee> employees, List<Address> addresses) {
 		super();
@@ -34,6 +36,14 @@ public class CompanyDto {
 	public Long getCompanyId() {
 		return companyId;
 	}
+	public CompanyType getType() {
+		return type;
+	}
+
+	public void setType(CompanyType type) {
+		this.type = type;
+	}
+
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
@@ -49,10 +59,10 @@ public class CompanyDto {
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-	public List<Address> getAdresses() {
+	public List<Address> getAddresses() {
 		return addresses;
 	}
-	public void setAdresses(List<Address> addresses) {
+	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
 	public List<Employee> getEmployees() {

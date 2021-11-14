@@ -147,7 +147,6 @@ abstract class AbstractEmployeeService implements EmployeeService {
 		    	log.debug("from:*"+reqParamArray[0]+"*");
 		    	log.debug("to:*"+reqParamArray[1]+"*");
 
-		    	//2021-05-22T19:30:40
 		    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
 		    	LocalDateTime startFrom = LocalDateTime.parse(reqParamArray[0], formatter);
 		    	LocalDateTime startTo = LocalDateTime.parse(reqParamArray[1], formatter);

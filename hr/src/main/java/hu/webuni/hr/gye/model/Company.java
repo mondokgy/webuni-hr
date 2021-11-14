@@ -2,23 +2,32 @@ package hu.webuni.hr.gye.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@SequenceGenerator(name="COMPANY_SEQUENCE_GENERATOR", sequenceName="COMPANY_SEQUENCE", initialValue=1, allocationSize=10)
 public class Company {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMPANY_SEQUENCE_GENERATOR")
 	Long companyId;
 	
 	String name;
 	String registrationNumber;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "type", length = 5)
+	CompanyType type;
 	
 	@OneToMany
 	@JoinTable(name="COMPANY_EMPLOYEE_JOIN", 
@@ -36,11 +45,12 @@ public class Company {
 		
 	}
 	
-	public Company(Long companyId, String name, String registrationNumber, List<Employee> employees, List<Address> addresses) {
+	public Company(Long companyId, String name, String registrationNumber, CompanyType type, List<Employee> employees, List<Address> addresses) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
 		this.registrationNumber = registrationNumber;
+		this.type = type;
 		this.addresses = addresses;
 		this.employees = employees;
 	}
@@ -63,10 +73,10 @@ public class Company {
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-	public List<Address> getAdresses() {
+	public List<Address> getAddresses() {
 		return addresses;
 	}
-	public void setAdresses(List<Address> addresses) {
+	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
 	public List<Employee> getEmployees() {
@@ -74,11 +84,22 @@ public class Company {
 	}
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
+	}				
+	public CompanyType getType() {
+		return type;
+	}
+	public void setType(CompanyType type) {
+		this.type = type;
 	}
 
 	@Override
 	public String toString() {
 		return "Company [companyId=" + companyId + ", name=" + name + ", registrationNumber=" + registrationNumber
-				+ ", employees=" + employees + ", addresses=" + addresses + "]";
-	}			
+				+ ", type=" + type + ", employees=" + employees + ", addresses=" + addresses + "]";
+	}
+
+	public enum CompanyType {
+	    KFT,BT,RT,NYRT
+	}
 }
+
