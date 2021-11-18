@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import hu.webuni.hr.gye.config.HrConfigProperties;
-import hu.webuni.hr.gye.dto.EmployeeDto;
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.repository.PositionRepository;
 
 @Controller
 public class HrTlController {
@@ -25,16 +25,19 @@ public class HrTlController {
 	@Autowired
 	HrConfigProperties config;
 	
+	@Autowired
+	PositionRepository positionRepository;
+	
 	private static final Logger log = LoggerFactory.getLogger("LOG");
 	
 	private TreeMap<Long, Employee> employeeListMap = new TreeMap<Long, Employee>();
 	//tesztadat feltöltés
-	{
-		
-		employeeListMap.put(1L,new Employee(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40)));		
-		employeeListMap.put(2L,new Employee(2L,"Próba Róza", "tester", 3000, LocalDateTime.of(2019,Month.MAY, 22, 19, 30, 40)));
-
-	}
+//	{
+//		
+//		employeeListMap.put(1L,new Employee(1L,"Teszt Elek", positionRepository.findByName("tester"), 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40)));		
+//		employeeListMap.put(2L,new Employee(2L,"Próba Róza", positionRepository.findByName("tester"), 3000, LocalDateTime.of(2019,Month.MAY, 22, 19, 30, 40)));
+//
+//	}
 	
 	
 	@GetMapping("/")

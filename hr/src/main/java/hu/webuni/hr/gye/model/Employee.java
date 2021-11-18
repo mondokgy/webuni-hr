@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.stereotype.Component;
@@ -20,7 +22,10 @@ public class Employee {
 	Long employeeID;
 	
 	String name;
-	String position;
+	
+	@ManyToOne
+	@JoinColumn(name ="POSITION_ID")
+	Position position;
 	Integer salary;
 	LocalDateTime startWork;	
 		
@@ -28,7 +33,7 @@ public class Employee {
 
 	}
 	
-	public Employee(Long employeeID, String name, String position, Integer salary, LocalDateTime startWork) {
+	public Employee(Long employeeID, String name, Position position, Integer salary, LocalDateTime startWork) {
 			this.employeeID = employeeID;
 			this.name = name;
 			this.position = position;
@@ -48,10 +53,10 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 	public Integer getSalary() {

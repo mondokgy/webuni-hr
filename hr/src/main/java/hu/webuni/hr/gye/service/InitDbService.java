@@ -1,7 +1,6 @@
 package hu.webuni.hr.gye.service;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.webuni.hr.gye.config.HrDbInitConfigProperties;
-import hu.webuni.hr.gye.config.HrListConfigProperties;
 import hu.webuni.hr.gye.model.Address;
 import hu.webuni.hr.gye.model.Company;
+import hu.webuni.hr.gye.model.CompanyType;
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.model.Position;
 import hu.webuni.hr.gye.repository.AddressRepository;
 import hu.webuni.hr.gye.repository.CompanyRepository;
+import hu.webuni.hr.gye.repository.CompanyTypeRepository;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
+import hu.webuni.hr.gye.repository.PositionRepository;
 
 @Service
 public class InitDbService {
@@ -31,12 +33,20 @@ public class InitDbService {
 	AddressRepository addressRepository;
 	
 	@Autowired
+	CompanyTypeRepository companyTypeRepository;
+
+	@Autowired
+	PositionRepository positionRepository;
+	
+	@Autowired
 	HrDbInitConfigProperties configInitDb;
 
 	public void clearDb(){
 		companyRepository.deleteAll();
 		employeeRepository.deleteAll();
 		addressRepository.deleteAll();
+		companyTypeRepository.deleteAll();
+		positionRepository.deleteAll();
 	}
 	
 	public void insertTestData(){
@@ -44,6 +54,10 @@ public class InitDbService {
 		List<Long> addressIdList = new ArrayList<Long>();
 		List<Long> employeeIdList = new ArrayList<Long>();
 
+		configInitDb.getCompanyType().forEach(type -> companyTypeRepository.save(new CompanyType(null,type)));
+		
+		configInitDb.getPosition().forEach(type -> positionRepository.save(new Position(null,type.getName(),type.getMinEducation(),type.getMinSalary())));
+		
 		configInitDb.getAddress().forEach(address -> {
 			Address newAddress = new Address(null,address.getCity(),address.getZip(),address.getStreet(),address.getHouseNumber(),address.getType());
 			addressIdList.add(addressRepository.save(newAddress).getAddressId());
@@ -52,7 +66,7 @@ public class InitDbService {
 		configInitDb.getEmployee().forEach(employee -> {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
 	    	LocalDateTime startDate = LocalDateTime.parse(employee.getStartWork(), formatter);
-			Employee newEmployee = new Employee(null,employee.getName(), employee.getPosition(), Integer.parseInt(employee.getSalary()) , startDate);
+			Employee newEmployee = new Employee(null,employee.getName(), positionRepository.findByName(employee.getPosition()), Integer.parseInt(employee.getSalary()) , startDate);
 			employeeIdList.add(employeeRepository.save(newEmployee).getEmployeeID());
 		});
 		
@@ -80,7 +94,7 @@ public class InitDbService {
 				employeeListPos[0] = employeeListPos[0] + 1;
 			}
 			
-			Company newCompany = new Company(null,company.getName(), company.getRegistrationNumber(), company.getType(), companyEmployeeList, companyAddressList);
+			Company newCompany = new Company(null,company.getName(), company.getRegistrationNumber(), companyTypeRepository.findByType(company.getType()), companyEmployeeList, companyAddressList);
 
 			companyRepository.save(newCompany).getCompanyId();
 		});

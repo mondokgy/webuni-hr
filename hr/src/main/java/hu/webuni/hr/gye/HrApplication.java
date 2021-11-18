@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.repository.PositionRepository;
 import hu.webuni.hr.gye.service.InitDbService;
 import hu.webuni.hr.gye.service.SalaryService;
 
@@ -24,6 +25,9 @@ public class HrApplication implements CommandLineRunner{
 	
 	@Autowired
 	InitDbService initDbService;
+	
+	@Autowired
+	PositionRepository positionRepository;
 	
 	@Autowired
 	Employee employee;
@@ -43,7 +47,8 @@ public class HrApplication implements CommandLineRunner{
 		System.out.println("Start HR application.");
 		
 		//teszt employee adatainak megadása
-		employee = new Employee(1L,"Teszt Elek", "tester", 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
+		
+		employee = new Employee(1L,"Teszt Elek", positionRepository.findByName("tester"), 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
 
 		log.info("Teszt employee:" + employee.toString());
 		

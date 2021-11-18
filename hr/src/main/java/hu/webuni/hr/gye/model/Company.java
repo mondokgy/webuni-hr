@@ -2,15 +2,13 @@ package hu.webuni.hr.gye.model;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -25,8 +23,10 @@ public class Company {
 	String name;
 	String registrationNumber;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "type", length = 5)
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "type", length = 5)
+	@ManyToOne
+	@JoinColumn(name ="COMPANYTYPE_ID")
 	CompanyType type;
 	
 	@OneToMany
@@ -98,8 +98,9 @@ public class Company {
 				+ ", type=" + type + ", employees=" + employees + ", addresses=" + addresses + "]";
 	}
 
-	public enum CompanyType {
-	    KFT,BT,RT,NYRT
-	}
+// ENUM helyett entitás
+//	public enum CompanyType {
+//	    KFT,BT,RT,NYRT
+//	}
 }
 

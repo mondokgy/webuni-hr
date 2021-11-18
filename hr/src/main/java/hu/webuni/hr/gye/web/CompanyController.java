@@ -1,6 +1,5 @@
 package hu.webuni.hr.gye.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.webuni.hr.gye.dto.AvgSalaryByPosition;
 import hu.webuni.hr.gye.dto.CompanyDto;
 import hu.webuni.hr.gye.dto.EmployeeDto;
 import hu.webuni.hr.gye.mapper.CompanyMapper;
 import hu.webuni.hr.gye.mapper.EmployeeMapper;
 import hu.webuni.hr.gye.model.Company;
-import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.repository.CompanyRepository;
 import hu.webuni.hr.gye.service.CompanyService;
-import hu.webuni.hr.gye.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -41,6 +40,9 @@ public class CompanyController {
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
+	
+	@Autowired
+	CompanyRepository companyRepository;
 	
 	private static final Logger log = LoggerFactory.getLogger("LOG");
 
@@ -159,5 +161,44 @@ public class CompanyController {
 
 	}
 	
+	@GetMapping(params = "moreThenSalary")
+	public List<CompanyDto> getCompaniesAboveASalary(@RequestParam int moreThenSalary,
+			@RequestParam(required = false) Boolean full) {
+		List<Company> filteredCompanies = companyRepository.findByEmployeeWithSalaryHigherThan(moreThenSalary);
+		if(full == null || !full) {
+			log.debug("Full is null or false, return without employee.");
+			
+			log.debug("restapi controller, /, get, getAll end");
+			return companyMapper.companiesToDtoWithOutEmployee(filteredCompanies);
+		}else {
+			log.debug("Full is true, return filtered companies");
+			log.debug("restapi controller, /, get, getAll end");
+			
+			return companyMapper.companiesToDto(filteredCompanies);
+		}
+	}
 
+
+	@GetMapping(params = "moreThenEmployeeCount")
+	public List<CompanyDto> getCompaniesAboveEmployeeNumber(@RequestParam int moreThenEmployeeCount,
+			@RequestParam(required = false) Boolean full) {
+		List<Company> filteredCompanies = companyRepository.findByEmployeeCountHigherThan(moreThenEmployeeCount);
+		if(full == null || !full) {
+			log.debug("Full is null or false, return without employee.");
+			
+			log.debug("restapi controller, /, get, getAll end");
+			return companyMapper.companiesToDtoWithOutEmployee(filteredCompanies);
+		}else {
+			log.debug("Full is true, return filtered companies");
+			log.debug("restapi controller, /, get, getAll end");
+			
+			return companyMapper.companiesToDto(filteredCompanies);
+		}
+	}
+
+	@GetMapping("/{id}/avgSalaryByPos")
+	public List<AvgSalaryByPosition> getAvgSalaraybyPosition(@PathVariable long id,@RequestParam(required = false) Boolean full) {
+		return companyRepository.findAverageSalariesByPosition(id);
+	}
+	
 }

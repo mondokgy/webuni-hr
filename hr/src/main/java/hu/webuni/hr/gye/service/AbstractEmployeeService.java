@@ -14,12 +14,15 @@ import javax.persistence.NamedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.webuni.hr.gye.exception.TooManyRequestParamsException;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
+import hu.webuni.hr.gye.repository.PositionRepository;
 
 @Service
 @NamedQuery(name="Employee.FindAll", query="SELECT e from EMPLOYEE e")
@@ -32,6 +35,9 @@ abstract class AbstractEmployeeService implements EmployeeService {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	PositionRepository positionRepository;
 	
 	@Override
 	@Transactional
@@ -74,10 +80,12 @@ abstract class AbstractEmployeeService implements EmployeeService {
 		return employeeRepository.save(changedEmployee);
 
 	}
-
-	private List<Employee> findByPosition(String position){
+	
+	@Override
+	public Page<Employee> findByPosition(String position, Pageable page){
 		log.debug("called AbstractEmployeeService.findByPosition()");
-		return employeeRepository.findByPosition(position);
+		
+		return employeeRepository.findByPosition(positionRepository.findByName(position), page);
 	}
 
 	private List<Employee> findByStartOfName(String namePrefix){
@@ -90,7 +98,7 @@ abstract class AbstractEmployeeService implements EmployeeService {
 
 		return employeeRepository.findByStartWorkBetween(from, to);
 	}
-	
+
 	@Override
 	public List<Employee> findBy(Map<String,String> reqParams) throws TooManyRequestParamsException{
 		log.debug("called AbstractEmployeeService.findBy()");
@@ -132,10 +140,6 @@ abstract class AbstractEmployeeService implements EmployeeService {
 
 				listEmployee = candidateEmployee;
 				break;
-		    case "position":
-		    	log.debug("position not null:*"+paramValue+"*, return filtered employees");
-		    	listEmployee = findByPosition(paramValue);
-		    	break;
 		    case "namePrefix":
 		    	log.debug("namePrefix not null:*"+paramValue+"*, return filtered employees");
 		    	listEmployee = findByStartOfName(paramValue);

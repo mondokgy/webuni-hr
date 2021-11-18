@@ -6,12 +6,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 
+import hu.webuni.hr.gye.model.Position;
+
 public class EmployeeDto {
 	private Long employeeID;
 	@NotEmpty(message = "Name cannot be null")
 	private String name;
 	@NotEmpty(message = "Position cannot be null")
-	private String position;
+	private Position position;
 	@Positive(message = "Position cannot be null")
 	private Integer salary;
 	@Past
@@ -21,7 +23,7 @@ public class EmployeeDto {
 		
 	}
 	
-	public EmployeeDto(Long employeeID, String name, String position, Integer salary, LocalDateTime startWork) {
+	public EmployeeDto(Long employeeID, String name, Position position, Integer salary, LocalDateTime startWork) {
 		super();
 		this.employeeID = employeeID;
 		this.name = name;
@@ -42,10 +44,10 @@ public class EmployeeDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 	public Integer getSalary() {
@@ -61,7 +63,10 @@ public class EmployeeDto {
 		this.startWork = startWork;
 	}	
 	
-	public String toString() { 
-	    return "Name: '" + this.name + "', Employee Id: '" + this.employeeID + "', Position: '" + this.position + "'" + "', Salary: '" + this.salary + "'" + "', Working start: '" + this.startWork.toString() + "'";
+	
+	@Override
+	public String toString() {
+		return "EmployeeDto [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary="
+				+ salary + ", startWork=" + startWork + "]";
 	} 
 }

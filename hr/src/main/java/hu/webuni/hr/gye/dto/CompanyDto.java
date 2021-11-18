@@ -3,7 +3,7 @@ package hu.webuni.hr.gye.dto;
 import java.util.List;
 
 import hu.webuni.hr.gye.model.Address;
-import hu.webuni.hr.gye.model.Company.CompanyType;
+import hu.webuni.hr.gye.model.CompanyType;
 import hu.webuni.hr.gye.model.Employee;
 
 public class CompanyDto {

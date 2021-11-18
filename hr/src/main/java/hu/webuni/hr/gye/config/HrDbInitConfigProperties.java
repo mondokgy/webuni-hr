@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import hu.webuni.hr.gye.model.Company.CompanyType;
+import hu.webuni.hr.gye.model.CompanyType;
 
 @ConfigurationProperties(prefix="hr.db.init")
 @Component
@@ -118,14 +118,14 @@ public class HrDbInitConfigProperties {
 		public static class Company{
 			private String name;
 			private String registrationNumber;
-			private CompanyType type;
+			private String type;
 			private Integer addressCount;
 			private Integer employeeCount;
 						
-			public CompanyType getType() {
+			public String getType() {
 				return type;
 			}
-			public void setType(CompanyType type) {
+			public void setType(String type) {
 				this.type = type;
 			}
 			public String getName() {
@@ -154,5 +154,52 @@ public class HrDbInitConfigProperties {
 			}
 			
 		}
+		
+		private List<String> companyType = new ArrayList<String>();
+		
+		public List<String> getCompanyType() {
+			return companyType;
+		}
+
+		public void setCompanyType(List<String> companyType) {
+			this.companyType = companyType;
+		}
+		
+		private List<Position> position = new ArrayList<Position>();
+		
+		public List<Position> getPosition() {
+			return position;
+		}
+
+		public void setPosition(List<Position> position) {
+			this.position = position;
+		}
+		
+		public static class Position{
+			private String name;
+			private String minEducation;
+			private Long minSalary;
+			
+			public String getName() {
+				return name;
+			}
+			public void setName(String name) {
+				this.name = name;
+			}
+			public String getMinEducation() {
+				return minEducation;
+			}
+			public void setMinEducation(String minEducation) {
+				this.minEducation = minEducation;
+			}
+			public Long getMinSalary() {
+				return minSalary;
+			}
+			public void setMinSalary(Long minSalary) {
+				this.minSalary = minSalary;
+			}
+	
+		}
+		
 }
 

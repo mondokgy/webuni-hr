@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +46,6 @@ public class EmployeeController {
 	
 	@GetMapping
 	public List<EmployeeDto> getAll(@RequestParam(required = false) String salary, 
-									@RequestParam(required = false) String position, 
 									@RequestParam(required = false) String namePrefix,
 									@RequestParam(required = false) String startFrom,
 									@RequestParam(required = false) String startTo){
@@ -59,10 +60,6 @@ public class EmployeeController {
 			params = params + "salary:"+salary+";";
 			log.debug("restapi controller, /, get, getAll start");
 			reqParams.put("salary", salary);
-		}
-		if(position != null) {
-			params = params + "position:"+position+";";
-			reqParams.put("position", position);
 		}
 		if(namePrefix != null) {
 			params = params + "namePrefix:"+namePrefix+";";
@@ -97,6 +94,26 @@ public class EmployeeController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	@GetMapping(params = "position")
+	public List<EmployeeDto> getAll(@RequestParam String position, Pageable page) {
+		log.debug("restapi controller, /, get, getAll params: position");
+
+		List<EmployeeDto> listEmployee = new ArrayList<EmployeeDto>();
+		
+		Page<Employee> positionPage=employeeService.findByPosition(position,page);
+		log.debug("page, getNumber: "+positionPage.getNumber()+"");
+		log.debug("page, isLast: "+positionPage.isLast()+"");
+		log.debug("page, isFirst: "+positionPage.isFirst()+"");
+		log.debug("page, getSize: "+positionPage.getSize()+"");
+		log.debug("page, getTotalElements: "+positionPage.getTotalElements()+"");
+		log.debug("page, getTotalPages: "+positionPage.getTotalPages()+"");
+		listEmployee = employeeMapper.employeesToDto(positionPage.getContent());
+			
+		log.debug("restapi controller, /, get, getAll end");
+		return listEmployee;
+		
 	}
 	
 	@GetMapping("/{id}")
