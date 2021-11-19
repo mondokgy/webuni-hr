@@ -7,5 +7,4 @@ import hu.webuni.hr.gye.model.Position;
 public interface PositionRepository extends JpaRepository<Position, Long>{
 
 	Position findByName(String positionName);
-	
 }

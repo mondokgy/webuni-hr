@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import hu.webuni.hr.gye.model.CompanyType;
-
 @ConfigurationProperties(prefix="hr.db.init")
 @Component
 public class HrDbInitConfigProperties {
@@ -178,7 +176,6 @@ public class HrDbInitConfigProperties {
 		public static class Position{
 			private String name;
 			private String minEducation;
-			private Integer minSalary;
 			
 			public String getName() {
 				return name;
@@ -192,13 +189,7 @@ public class HrDbInitConfigProperties {
 			public void setMinEducation(String minEducation) {
 				this.minEducation = minEducation;
 			}
-			public Integer getMinSalary() {
-				return minSalary;
-			}
-			public void setMinSalary(Integer minSalary) {
-				this.minSalary = minSalary;
-			}
-	
+
 		}
 		
 }

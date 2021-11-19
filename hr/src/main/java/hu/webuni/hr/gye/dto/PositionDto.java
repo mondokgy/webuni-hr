@@ -4,7 +4,6 @@ public class PositionDto {
 	Long positionID;	
 	String name;
 	String minEducation;
-	Long minSalary;
 	
 	public Long getPositionID() {
 		return positionID;
@@ -24,20 +23,19 @@ public class PositionDto {
 	public void setMinEducation(String minEducation) {
 		this.minEducation = minEducation;
 	}
-	public Long getMinSalary() {
-		return minSalary;
-	}
-	public void setMinSalary(Long minSalary) {
-		this.minSalary = minSalary;
-	}
-	
-	public PositionDto(Long positionID, String name, String minEducation, Long minSalary) {
+
+	public PositionDto(Long positionID, String name, String minEducation) {
 		super();
 		this.positionID = positionID;
 		this.name = name;
 		this.minEducation = minEducation;
-		this.minSalary = minSalary;
 	}
+	
+	@Override
+	public String toString() {
+		return "PositionDto [positionID=" + positionID + ", name=" + name + ", minEducation=" + minEducation + "]";
+	}
+
 	
 	
 }

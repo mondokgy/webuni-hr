@@ -18,19 +18,16 @@ public class Position {
 	
 	String name;
 	String minEducation;
-	Integer minSalary;
 
-	
 	public Position() {
 
 	}
 	
-	public Position(Long positionID, String name, String minEducation, Integer minSalary) {
+	public Position(Long positionID, String name, String minEducation) {
 		super();
 		this.positionID = positionID;
 		this.name = name;
 		this.minEducation = minEducation;
-		this.minSalary = minSalary;
 	}
 	
 	public Long getPositionID() {
@@ -51,17 +48,12 @@ public class Position {
 	public void setMinEducation(String minEducation) {
 		this.minEducation = minEducation;
 	}
-	public Integer getMinSalary() {
-		return minSalary;
-	}
-	public void setMinSalary(Integer minSalary) {
-		this.minSalary = minSalary;
-	}
+
 	
 	@Override
 	public String toString() {
 		return "Position [positionID=" + positionID + ", name=" + name + ", minEducation=" + minEducation
-				+ ", minSalary=" + minSalary + "]";
+				+ "]";
 	}
 
 	

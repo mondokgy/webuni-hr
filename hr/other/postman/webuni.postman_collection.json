@@ -58,7 +58,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/48",
+							"raw": "http://localhost:8080/api/employees/104",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -67,7 +67,7 @@
 							"path": [
 								"api",
 								"employees",
-								"48"
+								"104"
 							]
 						}
 					},
@@ -239,7 +239,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/employees?position=tester",
+							"raw": "http://localhost:8080/api/employees?position=programmer&page=0&size=5&sort=salary,desc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -252,7 +252,19 @@
 							"query": [
 								{
 									"key": "position",
-									"value": "tester"
+									"value": "programmer"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "salary,desc"
 								}
 							]
 						}
@@ -314,6 +326,29 @@
 									"key": "",
 									"value": ""
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateEmployee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/salary/{positionName}/raise/{salary}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"salary",
+								"{positionName}",
+								"raise",
+								"{salary}"
 							]
 						}
 					},
@@ -412,7 +447,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/2",
+							"raw": "http://localhost:8080/api/companies/46",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -421,7 +456,7 @@
 							"path": [
 								"api",
 								"companies",
-								"2"
+								"46"
 							]
 						}
 					},
@@ -445,7 +480,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/2?full=true",
+							"raw": "http://localhost:8080/api/companies/46?full=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -454,7 +489,7 @@
 							"path": [
 								"api",
 								"companies",
-								"2"
+								"46"
 							],
 							"query": [
 								{
@@ -467,13 +502,119 @@
 					"response": []
 				},
 				{
+					"name": "allCompaniesOverSalary",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies?full=true&moreThenSalary=8000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies"
+							],
+							"query": [
+								{
+									"key": "full",
+									"value": "true"
+								},
+								{
+									"key": "moreThenSalary",
+									"value": "8000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allCompaniesOverEmployeeCount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companies?full=true&moreThenEmployeeCount=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies"
+							],
+							"query": [
+								{
+									"key": "full",
+									"value": "true"
+								},
+								{
+									"key": "moreThenEmployeeCount",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AvgsalaryByPositionByCompany",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/companies/342/avgSalaryByPos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companies",
+								"342",
+								"avgSalaryByPos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "postCompany",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n        {\r\n            \"employeeID\": 10,\r\n            \"name\": \"abcdefg\",\r\n            \"position\": \"123456\",\r\n            \"salary\": 9999000,\r\n            \"startWork\": \"2021-10-22T19:30:40\"\r\n        },\r\n        {\r\n            \"employeeID\": 11,\r\n            \"name\": \"abcdefg\",\r\n            \"position\": \"123456\",\r\n            \"salary\": 9999000,\r\n            \"startWork\": \"2021-10-22T19:30:40\"\r\n        }\r\n    ],\r\n    \"adresses\": [\r\n        {\r\n            \"addressId\": 32,\r\n            \"city\": \"Budapest\",\r\n            \"zip\": \"1114\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": \"telephely\"\r\n        },\r\n        {\r\n            \"addressId\": 35,\r\n            \"city\": \"telephely\",\r\n            \"zip\": \"1115\",\r\n            \"street\": \"Kossuth utca\",\r\n            \"houseNumber\": \"10\",\r\n            \"type\": null\r\n        }\r\n    ],\r\n    \"companyId\": 5\r\n}",
+							"raw": "{\r\n\"name\": \"DebIT zrt. \",\r\n\"registrationNumber\": \"976578-a\",\r\n    \"employees\": [\r\n{\r\n    \"employeeID\": 236,\r\n    \"name\": \"Date Test\",\r\n    \"position\": \"c\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2012-03-12T19:30:40\"\r\n}\r\n    ],\r\n    \"addresses\": [\r\n{\r\n    \"addressId\": 281,\r\n    \"city\": \"Budapest\",\r\n    \"zip\": \"1115\",\r\n    \"street\": \"Kossuth utca\",\r\n    \"houseNumber\": \"10\",\r\n    \"type\": \"telephely\"\r\n}\r\n    ],\r\n    \"companyId\": 5,\r\n     \"type\": {\r\n            \"companyTypeId\": 13,\r\n            \"type\": \"RT\"\r\n        }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -540,7 +681,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/470",
+							"raw": "http://localhost:8080/api/companies/155",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -549,7 +690,7 @@
 							"path": [
 								"api",
 								"companies",
-								"470"
+								"155"
 							]
 						}
 					},
@@ -704,7 +845,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/addresses/31",
+							"raw": "http://localhost:8080/api/addresses/32",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -713,7 +854,7 @@
 							"path": [
 								"api",
 								"addresses",
-								"31"
+								"32"
 							]
 						}
 					},
@@ -803,6 +944,198 @@
 								"api",
 								"addresses",
 								"31"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "companyType",
+			"item": [
+				{
+					"name": "allCompanyType",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companyTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companyTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postCompanyType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"type\": \"SZÖVETKEZET\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companyTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companyTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCompanyTpe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/companyTypes/226",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"companyTypes",
+								"226"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "position",
+			"item": [
+				{
+					"name": "allPosition",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\":3,\r\n    \"name\":\"Próba Róza2\",\r\n    \"position\":\"tester\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/positions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postPosition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"programmer2\",\r\n        \"minEducation\": \"egyetem\",\r\n        \"minSalary\": 500000\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/positions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePosition",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeID\": 4,\r\n    \"name\": \"Próba Róza2\",\r\n    \"position\": \"tester\",\r\n    \"salary\": 3000,\r\n    \"startWork\": \"2019-05-22T19:30:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/positions/239",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"positions",
+								"239"
 							]
 						}
 					},

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.webuni.hr.gye.dto.PositionDetailDto;
 import hu.webuni.hr.gye.dto.PositionDto;
 import hu.webuni.hr.gye.mapper.PositionMapper;
 import hu.webuni.hr.gye.model.Position;
@@ -36,11 +37,11 @@ public class PositionController {
 	private PositionMapper positionMapper;
 	
 	@GetMapping
-	public List<PositionDto> getAll(){
+	public List<PositionDetailDto> getAll(){
 
 
 		log.debug("restapi controller Position, /, get, getAll start");
-		List<PositionDto> allPosition = positionMapper.positionToDto(positionService.findAll());
+		List<PositionDetailDto> allPosition = positionMapper.positionDetailsToDto(positionService.findAll());
 		
 		return allPosition;			
 	}

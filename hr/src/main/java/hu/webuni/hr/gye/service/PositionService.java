@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import hu.webuni.hr.gye.model.CompanyType;
 import hu.webuni.hr.gye.model.Position;
+import hu.webuni.hr.gye.model.PositionDetail;
+import hu.webuni.hr.gye.repository.PositionDetailRepository;
 import hu.webuni.hr.gye.repository.PositionRepository;
 
 @Service
@@ -22,15 +23,18 @@ private static final Logger log = LoggerFactory.getLogger("LOG");
 	@Autowired
 	PositionRepository positionRepository;
 	
+	@Autowired
+	PositionDetailRepository positionDetailRepository;
+	
 	@Transactional
 	public Position save(Position position) {
 		log.debug("called Position.save()");
 		return positionRepository.save(position);
 	}
 	
-	public List<Position> findAll(){
+	public List<PositionDetail> findAll(){
 		log.debug("called Position.findAll()");
-		return positionRepository.findAll();
+		return positionDetailRepository.findAll();
 	}
 
 	public Position findByName(String name){

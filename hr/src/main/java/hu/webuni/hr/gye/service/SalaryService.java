@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.webuni.hr.gye.model.Employee;
-import hu.webuni.hr.gye.model.Position;
+import hu.webuni.hr.gye.model.PositionDetail;
 import hu.webuni.hr.gye.repository.CompanyRepository;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
-import hu.webuni.hr.gye.repository.PositionRepository;
+import hu.webuni.hr.gye.repository.PositionDetailRepository;
 
 @Service
 public class SalaryService {
@@ -22,10 +22,10 @@ public class SalaryService {
 	@Autowired
 	private CompanyRepository companyRepository;
 	@Autowired
-	private PositionRepository positionRepository;
+	private EmployeeRepository employeeRepository;	
 	@Autowired
-	private EmployeeRepository employeeRepository;
-	
+	private PositionDetailRepository positionDetailRepository;
+
 	private static final Logger log = LoggerFactory.getLogger("LOG");
 	
 	public SalaryService(EmployeeService employeeService) {
@@ -52,20 +52,25 @@ public class SalaryService {
 	@Transactional
 	public void updateSalaryByPosition(String positionName, Integer salary, Long companyId) {
 		log.debug("Start updateSalaryByPosition");
-		
-		Position position = positionRepository.findByName(positionName);
-		position.setMinSalary(salary);
-		
+
 		List<Employee> employeeList = new ArrayList<Employee>();
+		List<PositionDetail> posDetails = new ArrayList<PositionDetail>();
 		
 		if(companyId != null) {
 			log.debug("find by company");
+			posDetails = positionDetailRepository.findByPositionAndCompanyIdWithSalaryLowerThan(salary, positionName, companyId);
 			employeeList = companyRepository.findByCompanyAndPositionWithSalaryLowerThan(salary, companyId, positionName);
 		}else {
 			log.debug("find in all employee");
+			posDetails = positionDetailRepository.findByPositionWithSalaryLowerThan(salary, positionName);
 			employeeList = employeeRepository.findByPositionWithSalaryLowerThan(salary,positionName);
 		}
 			
+		posDetails.forEach(pd -> {
+			pd.setMinSalary(salary);
+			log.debug("position detail: " + pd.toString());
+		});
+		
 		employeeList.forEach(e -> {
 			e.setSalary(salary);
 			log.debug("employee: " + e.toString());

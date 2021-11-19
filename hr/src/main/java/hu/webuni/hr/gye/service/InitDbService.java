@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +17,19 @@ import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.CompanyType;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Position;
+import hu.webuni.hr.gye.model.PositionDetail;
 import hu.webuni.hr.gye.repository.AddressRepository;
 import hu.webuni.hr.gye.repository.CompanyRepository;
 import hu.webuni.hr.gye.repository.CompanyTypeRepository;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
+import hu.webuni.hr.gye.repository.PositionDetailRepository;
 import hu.webuni.hr.gye.repository.PositionRepository;
 
 @Service
 public class InitDbService {
-
+	
+	private static final Logger log = LoggerFactory.getLogger("LOG");
+	
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
@@ -39,14 +46,19 @@ public class InitDbService {
 	PositionRepository positionRepository;
 	
 	@Autowired
+	PositionDetailRepository positionDetailRepository;
+	
+	@Autowired
 	HrDbInitConfigProperties configInitDb;
 
-	public void clearDb(){
-		companyRepository.deleteAll();
+	public void clearDb(){		
+		positionDetailRepository.deleteAll();
+		companyRepository.deleteAll();		
 		employeeRepository.deleteAll();
 		addressRepository.deleteAll();
 		companyTypeRepository.deleteAll();
 		positionRepository.deleteAll();
+		
 	}
 	
 	public void insertTestData(){
@@ -56,7 +68,7 @@ public class InitDbService {
 
 		configInitDb.getCompanyType().forEach(type -> companyTypeRepository.save(new CompanyType(null,type)));
 		
-		configInitDb.getPosition().forEach(position -> positionRepository.save(new Position(null,position.getName(),position.getMinEducation(),position.getMinSalary())));
+		configInitDb.getPosition().forEach(position -> positionRepository.save(new Position(null,position.getName(),position.getMinEducation())));
 		
 		configInitDb.getAddress().forEach(address -> {
 			Address newAddress = new Address(null,address.getCity(),address.getZip(),address.getStreet(),address.getHouseNumber(),address.getType());
@@ -99,5 +111,15 @@ public class InitDbService {
 			companyRepository.save(newCompany).getCompanyId();
 		});
 		
+		
+		companyRepository.findAll().forEach(c -> {
+			positionRepository.findAll().forEach(f -> {
+				Random random = new Random();
+				int salary = random.ints(1, 15).findAny().getAsInt() * 1000;
+				PositionDetail pd = new PositionDetail(null,salary,c,f);
+				positionDetailRepository.save(pd);
+			});
+			
+		});
 	}
 }
