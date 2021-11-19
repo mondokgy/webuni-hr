@@ -178,7 +178,7 @@ public class HrDbInitConfigProperties {
 		public static class Position{
 			private String name;
 			private String minEducation;
-			private Long minSalary;
+			private Integer minSalary;
 			
 			public String getName() {
 				return name;
@@ -192,10 +192,10 @@ public class HrDbInitConfigProperties {
 			public void setMinEducation(String minEducation) {
 				this.minEducation = minEducation;
 			}
-			public Long getMinSalary() {
+			public Integer getMinSalary() {
 				return minSalary;
 			}
-			public void setMinSalary(Long minSalary) {
+			public void setMinSalary(Integer minSalary) {
 				this.minSalary = minSalary;
 			}
 	

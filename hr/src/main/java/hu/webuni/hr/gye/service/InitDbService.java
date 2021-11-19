@@ -56,7 +56,7 @@ public class InitDbService {
 
 		configInitDb.getCompanyType().forEach(type -> companyTypeRepository.save(new CompanyType(null,type)));
 		
-		configInitDb.getPosition().forEach(type -> positionRepository.save(new Position(null,type.getName(),type.getMinEducation(),type.getMinSalary())));
+		configInitDb.getPosition().forEach(position -> positionRepository.save(new Position(null,position.getName(),position.getMinEducation(),position.getMinSalary())));
 		
 		configInitDb.getAddress().forEach(address -> {
 			Address newAddress = new Address(null,address.getCity(),address.getZip(),address.getStreet(),address.getHouseNumber(),address.getType());

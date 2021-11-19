@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Position;
 
@@ -18,4 +20,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	List<Employee> findByNameStartingWithIgnoreCase(String namePrefix);
 	//select * from employee where startWork between ?1 and ?2
 	List<Employee> findByStartWorkBetween(LocalDateTime from, LocalDateTime to);
+	
+	@Query("SELECT DISTINCT e FROM Employee e "
+			+ "WHERE e.salary < :salary and e.position.name = :positionName")
+	public List<Employee> findByPositionWithSalaryLowerThan(Integer salary, String positionName);
+	
 }

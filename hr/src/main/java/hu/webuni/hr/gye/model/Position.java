@@ -18,14 +18,14 @@ public class Position {
 	
 	String name;
 	String minEducation;
-	Long minSalary;
+	Integer minSalary;
 
 	
 	public Position() {
 
 	}
 	
-	public Position(Long positionID, String name, String minEducation, Long minSalary) {
+	public Position(Long positionID, String name, String minEducation, Integer minSalary) {
 		super();
 		this.positionID = positionID;
 		this.name = name;
@@ -51,10 +51,10 @@ public class Position {
 	public void setMinEducation(String minEducation) {
 		this.minEducation = minEducation;
 	}
-	public Long getMinSalary() {
+	public Integer getMinSalary() {
 		return minSalary;
 	}
-	public void setMinSalary(Long minSalary) {
+	public void setMinSalary(Integer minSalary) {
 		this.minSalary = minSalary;
 	}
 	
