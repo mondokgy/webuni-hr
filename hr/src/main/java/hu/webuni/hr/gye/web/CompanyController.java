@@ -51,15 +51,18 @@ public class CompanyController {
 	public List<CompanyDto> getAll(@RequestParam(required = false) Boolean full){
 		
 		log.debug("restapi controller, /, get, getAll start");
-		List<Company> allCompanies = companyService.findAll();
+		
+		List<Company> allCompanies = null;
 		
 		if(full == null || !full) {
 			log.debug("Full is null or false, return without employee.");
-			
+			allCompanies = companyService.findAll();
 			log.debug("restapi controller, /, get, getAll end");
+			
 			return companyMapper.companiesToDtoWithOutEmployee(allCompanies);
 		}else {
-			log.debug("Full is true, return filtered companies");
+			log.debug("Full is true, return filtered companies");			
+			allCompanies = companyService.findAll();
 			log.debug("restapi controller, /, get, getAll end");
 			
 			return companyMapper.companiesToDto(allCompanies);

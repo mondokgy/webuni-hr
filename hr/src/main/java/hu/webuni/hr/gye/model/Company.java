@@ -29,32 +29,29 @@ public class Company {
 	@JoinColumn(name ="COMPANYTYPE_ID")
 	CompanyType type;
 	
-	@OneToMany
-	@JoinTable(name="COMPANY_EMPLOYEE_JOIN", 
-		joinColumns = {@JoinColumn(name="COMPANY_FK")}, 
-		inverseJoinColumns = {@JoinColumn(name="EMPLOYEE_FK")})
+	@OneToMany(mappedBy = "company")
 	List<Employee> employees;
 	
-	@OneToMany
-	@JoinTable(name="COMPANY_ADDRESS_JOIN", 
-		joinColumns = {@JoinColumn(name="COMPANY_FK")}, 
-		inverseJoinColumns = {@JoinColumn(name="ADDRESS_FK")})
+	@OneToMany(mappedBy = "company")
 	List<Address> addresses;	
 
 	public Company() {
 		
 	}
 	
-	public Company(Long companyId, String name, String registrationNumber, CompanyType type, List<Employee> employees, List<Address> addresses) {
+	
+	public Company(Long companyId, String name, String registrationNumber, CompanyType type, List<Employee> employees,
+			List<Address> addresses) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
 		this.registrationNumber = registrationNumber;
 		this.type = type;
-		this.addresses = addresses;
 		this.employees = employees;
+		this.addresses = addresses;
 	}
-	
+
+
 	public Long getCompanyId() {
 		return companyId;
 	}

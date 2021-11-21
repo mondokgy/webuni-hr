@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.webuni.hr.gye.config.HrDbInitConfigProperties;
+import hu.webuni.hr.gye.config.HrDbInitConfigProperties.ConfigCompany;
 import hu.webuni.hr.gye.model.Address;
 import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.CompanyType;
@@ -63,55 +64,65 @@ public class InitDbService {
 	
 	public void insertTestData(){
 		
-		List<Long> addressIdList = new ArrayList<Long>();
-		List<Long> employeeIdList = new ArrayList<Long>();
+		List<Address> addressList = new ArrayList<Address>();
+		List<Employee> employeeList = new ArrayList<Employee>();
 
+		List<Integer> addressCount = new ArrayList<Integer>();
+		List<Integer> employeeCount = new ArrayList<Integer>();
+		
+		int companyPos = 0;
+		
 		configInitDb.getCompanyType().forEach(type -> companyTypeRepository.save(new CompanyType(null,type)));
 		
 		configInitDb.getPosition().forEach(position -> positionRepository.save(new Position(null,position.getName(),position.getMinEducation())));
 		
+		List<ConfigCompany> confCompanyList = configInitDb.getCompany();
+		
+		for(ConfigCompany confCompany: confCompanyList){
+			addressCount.add(confCompany.getAddressCount());
+			employeeCount.add(confCompany.getEmployeeCount());
+			
+			Company newCompany = new Company(null,confCompany.getName(), confCompany.getRegistrationNumber(), companyTypeRepository.findByType(confCompany.getType()), null, null);
+			companyRepository.save(newCompany).getCompanyId();
+		}
+		
 		configInitDb.getAddress().forEach(address -> {
-			Address newAddress = new Address(null,address.getCity(),address.getZip(),address.getStreet(),address.getHouseNumber(),address.getType());
-			addressIdList.add(addressRepository.save(newAddress).getAddressId());
+			Address newAddress = new Address(null,address.getCity(),address.getZip(),address.getStreet(),address.getHouseNumber(),address.getType(),null);
+			addressList.add(addressRepository.save(newAddress));
 		});
 
 		configInitDb.getEmployee().forEach(employee -> {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
 	    	LocalDateTime startDate = LocalDateTime.parse(employee.getStartWork(), formatter);
-			Employee newEmployee = new Employee(null,employee.getName(), positionRepository.findByName(employee.getPosition()), Integer.parseInt(employee.getSalary()) , startDate);
-			employeeIdList.add(employeeRepository.save(newEmployee).getEmployeeID());
+			Employee newEmployee = new Employee(null,employee.getName(), positionRepository.findByName(employee.getPosition()), Integer.parseInt(employee.getSalary()) , startDate, null);
+			employeeList.add(employeeRepository.save(newEmployee));
 		});
 		
-		int[] addressListPos = {0};
-		int[] employeeListPos = {0};
+		List<Company> companyList = companyRepository.findAll();
 		
-		configInitDb.getCompany().forEach(company -> {
-			
-			int addressPosShift = addressListPos[0];
-			int emoployeePosShift = employeeListPos[0];
-			
-			List<Address> companyAddressList = new ArrayList<Address>();
-			List<Employee> companyEmployeeList = new ArrayList<Employee>();
-			
-			int addressCount = company.getAddressCount();
-			int employeeCount = company.getEmployeeCount();
-			
-			for(int k=0 ; k<addressCount; k++ ) {
-				companyAddressList.add(addressRepository.getById(addressIdList.get(k+addressPosShift)));
-				addressListPos[0] = addressListPos[0] + 1;
+		int allAddress = 0;
+		int allEmployee=0;
+		
+		for(Company company: companyList ) {
+			for(int k=0 ; k<addressCount.get(companyPos); k++ ) {
+				Address address = addressList.get(k+allAddress);
+				address.setCompany(company);
+				addressRepository.save(address);
 			}
 			
-			for(int l=0 ; l<employeeCount; l++ ) {
-				companyEmployeeList.add(employeeRepository.getById(employeeIdList.get(l+emoployeePosShift)));
-				employeeListPos[0] = employeeListPos[0] + 1;
+			allAddress = allAddress + addressCount.get(companyPos);
+			
+			for(int k=0 ; k<employeeCount.get(companyPos); k++ ) {
+				Employee employee = employeeList.get(k+allEmployee);
+				employee.setCompany(company);
+				employeeRepository.save(employee);
 			}
 			
-			Company newCompany = new Company(null,company.getName(), company.getRegistrationNumber(), companyTypeRepository.findByType(company.getType()), companyEmployeeList, companyAddressList);
+			allEmployee = allEmployee + employeeCount.get(companyPos);
+			
+			companyPos++;
+		}
 
-			companyRepository.save(newCompany).getCompanyId();
-		});
-		
-		
 		companyRepository.findAll().forEach(c -> {
 			positionRepository.findAll().forEach(f -> {
 				Random random = new Random();

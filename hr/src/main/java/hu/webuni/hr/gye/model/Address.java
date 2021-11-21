@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -12,28 +13,32 @@ public class Address {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ADDRESS_SEQUENCE_GENERATOR")
-	Long addressId;
+	private Long addressId;
 	
-	String city;
-	String zip;
-	String street;
-	String houseNumber;
-	String type;
+	private String city;
+	private String zip;
+	private String street;
+	private String houseNumber;
+	private String type;
+	@ManyToOne
+	private Company company;
 	
 	public Address() {
 
 	}
-	
-	public Address(Long addressId, String city, String zip, String street, String houseNumber, String type) {
+		
+	public Address(Long addressId, String city, String zip, String street, String houseNumber, String type,
+			Company company) {
 		super();
-		this.addressId= addressId;
+		this.addressId = addressId;
 		this.city = city;
 		this.zip = zip;
 		this.street = street;
 		this.houseNumber = houseNumber;
 		this.type = type;
+		this.company = company;
 	}
-	
+
 	public Long getAddressId() {
 		return addressId;
 	}
@@ -73,7 +78,15 @@ public class Address {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 	public String getFullAddress(Address adress) {
 		String fullAddress = adress.getZip() + " " + adress.getCity() + ", " + adress.getStreet() + " " + adress.getHouseNumber() ;
 		return fullAddress;
@@ -81,7 +94,8 @@ public class Address {
 	
 	@Override
 	public String toString() {
-		return "Address [city=" + city + ", zip=" + zip + ", street=" + street + ", houseNumber=" + houseNumber + ", type=" + type + "]";
+		return "Address [addressId=" + addressId + ", city=" + city + ", zip=" + zip + ", street=" + street
+				+ ", houseNumber=" + houseNumber + ", type=" + type + ", company=" + company + "]";
 	}
 	
 	

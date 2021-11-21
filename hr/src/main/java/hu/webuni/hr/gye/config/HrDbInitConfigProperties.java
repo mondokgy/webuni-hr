@@ -103,17 +103,17 @@ public class HrDbInitConfigProperties {
 		
 		}
 		
-		private List<Company> company = new ArrayList<Company>();
+		private List<ConfigCompany> company = new ArrayList<ConfigCompany>();
 		
-		public List<Company> getCompany() {
+		public List<ConfigCompany> getCompany() {
 			return company;
 		}
 
-		public void setCompany(List<Company> company) {
+		public void setCompany(List<ConfigCompany> company) {
 			this.company = company;
 		}
 
-		public static class Company{
+		public static class ConfigCompany{
 			private String name;
 			private String registrationNumber;
 			private String type;

@@ -28,17 +28,21 @@ public class Employee {
 	Position position;
 	Integer salary;
 	LocalDateTime startWork;	
-		
+	
+	@ManyToOne
+	Company company;
+	
 	public Employee() {
 
 	}
 	
-	public Employee(Long employeeID, String name, Position position, Integer salary, LocalDateTime startWork) {
+	public Employee(Long employeeID, String name, Position position, Integer salary, LocalDateTime startWork, Company company) {
 			this.employeeID = employeeID;
 			this.name = name;
 			this.position = position;
 			this.salary = salary;
 			this.startWork = startWork;
+			this.company = company;
 		}
 	
 	public Long getEmployeeID() {
@@ -70,11 +74,18 @@ public class Employee {
 	}
 	public void setStartWork(LocalDateTime startWork) {
 		this.startWork = startWork;
+	}	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	@Override
 	public String toString() {
 		return "Employee [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary=" + salary
-				+ ", startWork=" + startWork + "]";
+				+ ", startWork=" + startWork + ", company=" + company + "]";
 	} 
 }

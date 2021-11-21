@@ -48,7 +48,7 @@ public class HrApplication implements CommandLineRunner{
 		
 		//teszt employee adatainak megadása
 		
-		employee = new Employee(1L,"Teszt Elek", positionRepository.findByName("tester"), 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40));
+		employee = new Employee(1L,"Teszt Elek", positionRepository.findByName("tester"), 1000, LocalDateTime.of(2011,Month.JANUARY, 15, 19, 30, 40), null);
 
 		log.info("Teszt employee:" + employee.toString());
 		

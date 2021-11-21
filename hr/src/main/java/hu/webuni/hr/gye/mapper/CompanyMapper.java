@@ -15,7 +15,9 @@ public interface CompanyMapper {
 	List<CompanyDto> companiesToDto(List<Company> companies);
 	CompanyDto companyToDto(Company company);
 	Company dtoToCompany(CompanyDto companyDto);
+	
 	@Mapping(target="employees", ignore=true)
+	@Mapping(target="addresses", ignore=true)
 	@Named("summary")
 	CompanyDto companyToDtoWithOutEmployee(Company company);
 	
