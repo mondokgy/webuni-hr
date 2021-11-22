@@ -20,15 +20,25 @@ public class SalaryController {
 	@Autowired
 	SalaryService salaryService;
 	
-	@PutMapping("/{positionName}/raise/{salary}")
-	public void updateSalaryByPosition(@PathVariable String positionName, @PathVariable Integer salary, @RequestParam(required = false) Long companyId) {
+	@PutMapping("/{positionName}/raisebadeffort/{salary}")
+	public void updateSalaryByPosition_BadEffort(@PathVariable String positionName, @PathVariable Integer salary, @RequestParam(required = false) Long companyId) {
 		
 		log.debug("restapi SalaryController, /{positionName}/raise/{salary}, put, updateSalaryByPosition start");
 		log.debug("restapi SalaryController, positionName: *" + positionName + "*");
 		log.debug("restapi SalaryController, salary: *" + salary + "*");
 		log.debug("restapi SalaryController, companyId: *" + companyId + "*");
-		salaryService.updateSalaryByPosition(positionName,salary,companyId);
+		salaryService.updateSalaryByPosition_BadEffort(positionName,salary,companyId);
 		log.debug("restapi SalaryController, /{positionName}/raise/{salary}, put, updateSalaryByPosition end");
 	}
 	
+	@PutMapping("/{positionName}/raise/{salary}")
+	public void updateSalaryByPosition_GoodEffort(@PathVariable String positionName, @PathVariable Integer salary, @RequestParam(required = false) Long companyId) {
+		
+		log.debug("restapi SalaryController, /{positionName}/raise/{salary}, put, updateSalaryByPosition start");
+		log.debug("restapi SalaryController, positionName: *" + positionName + "*");
+		log.debug("restapi SalaryController, salary: *" + salary + "*");
+		log.debug("restapi SalaryController, companyId: *" + companyId + "*");
+		salaryService.updateSalaryByPosition_GoodEffort(positionName,salary,companyId);
+		log.debug("restapi SalaryController, /{positionName}/raise/{salary}, put, updateSalaryByPosition end");
+	}
 }

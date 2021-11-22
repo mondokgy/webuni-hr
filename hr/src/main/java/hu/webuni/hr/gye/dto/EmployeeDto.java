@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 
+import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.Position;
 
 public class EmployeeDto {
@@ -18,7 +19,8 @@ public class EmployeeDto {
 	private Integer salary;
 	@Past
 	private LocalDateTime startWork;
-	
+	private CompanyDto company;
+
 	public EmployeeDto() {
 		
 	}
@@ -62,7 +64,12 @@ public class EmployeeDto {
 	public void setStartWork(LocalDateTime startWork) {
 		this.startWork = startWork;
 	}	
-	
+	public CompanyDto getCompany() {
+		return company;
+	}
+	public void setCompany(CompanyDto company) {
+		this.company = company;
+	}
 	
 	@Override
 	public String toString() {

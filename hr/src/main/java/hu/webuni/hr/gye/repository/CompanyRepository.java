@@ -20,9 +20,5 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
 			+ "FROM Company c INNER JOIN c.employees e  WHERE c.id = :companyId GROUP BY e.position ORDER BY avg(e.salary) DESC")
 	public List<AvgSalaryByPosition> findAverageSalariesByPosition(long companyId);
 	
-	@Query("SELECT DISTINCT e FROM Company c JOIN c.employees e "
-			+ "WHERE e.salary < :salary and c.companyId = :companyId and e.position.name = :positionName")
-	public List<Employee> findByCompanyAndPositionWithSalaryLowerThan(Integer salary, Long companyId, String positionName);
-
 }
 

@@ -50,8 +50,8 @@ public class SalaryService {
 	}
 	
 	@Transactional
-	public void updateSalaryByPosition(String positionName, Integer salary, Long companyId) {
-		log.debug("Start updateSalaryByPosition");
+	public void updateSalaryByPosition_BadEffort(String positionName, Integer salary, Long companyId) {
+		log.debug("Start updateSalaryByPosition_BadEffort");
 
 		List<Employee> employeeList = new ArrayList<Employee>();
 		List<PositionDetail> posDetails = new ArrayList<PositionDetail>();
@@ -59,7 +59,7 @@ public class SalaryService {
 		if(companyId != null) {
 			log.debug("find by company");
 			posDetails = positionDetailRepository.findByPositionAndCompanyIdWithSalaryLowerThan(salary, positionName, companyId);
-			employeeList = companyRepository.findByCompanyAndPositionWithSalaryLowerThan(salary, companyId, positionName);
+			employeeList = employeeRepository.findByCompanyAndPositionWithSalaryLowerThan(salary, companyId, positionName);
 		}else {
 			log.debug("find in all employee");
 			posDetails = positionDetailRepository.findByPositionWithSalaryLowerThan(salary, positionName);
@@ -76,7 +76,21 @@ public class SalaryService {
 			log.debug("employee: " + e.toString());
 		});
 		
-		log.debug("End updateSalaryByPosition");
+		log.debug("End updateSalaryByPosition_BadEffort");
+	}
+	
+	@Transactional
+	public void updateSalaryByPosition_GoodEffort(String positionName, Integer salary, Long companyId) {
+		log.debug("Start updateSalaryByPosition_GoodEffort");
+
+		if(companyId != null) {
+			employeeRepository.updateSalariesWithCompany(positionName, salary, companyId);
+			positionDetailRepository.updatePositionMinSalaryWithCompany(positionName, salary, companyId);
+		}else {
+			employeeRepository.updateSalaries(positionName, salary);
+			positionDetailRepository.updatePositionMinSalary(positionName, salary);
+		}
+		log.debug("End updateSalaryupdateSalaryByPosition_GoodEffortByPosition");
 	}
 	
 }

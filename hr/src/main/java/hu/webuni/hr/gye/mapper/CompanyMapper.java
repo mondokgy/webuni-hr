@@ -7,8 +7,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import hu.webuni.hr.gye.dto.AddressDto;
 import hu.webuni.hr.gye.dto.CompanyDto;
+import hu.webuni.hr.gye.dto.EmployeeDto;
+import hu.webuni.hr.gye.model.Address;
 import hu.webuni.hr.gye.model.Company;
+import hu.webuni.hr.gye.model.Employee;
 
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
@@ -23,5 +27,10 @@ public interface CompanyMapper {
 	
 	@IterableMapping(qualifiedByName="summary")
 	List<CompanyDto> companiesToDtoWithOutEmployee(List<Company> companies);
-	
+
+	@Mapping(target = "company", ignore = true)
+	EmployeeDto employeeToDto(Employee e);
+
+	@Mapping(target = "company", ignore = true)
+	AddressDto addressToDto(Address a);
 }

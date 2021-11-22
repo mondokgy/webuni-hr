@@ -1,5 +1,6 @@
 package hu.webuni.hr.gye.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hu.webuni.hr.gye.model.Address;
@@ -11,11 +12,15 @@ public class CompanyDto {
 	Long companyId;
 	String name;
 	String registrationNumber;
-	List<Employee> employees;
-	List<Address> addresses;
+	List<EmployeeDto> employees = new ArrayList<>();
+	List<AddressDto> addresses = new ArrayList<>();
 	CompanyType type;
 
-	public CompanyDto(Long companyId, String name, String registrationNumber, List<Employee> employees, List<Address> addresses) {
+	public CompanyDto() {
+		
+	}
+
+	public CompanyDto(Long companyId, String name, String registrationNumber, List<EmployeeDto> employees, List<AddressDto> addresses) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
@@ -59,16 +64,16 @@ public class CompanyDto {
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-	public List<Address> getAddresses() {
+	public List<AddressDto> getAddresses() {
 		return addresses;
 	}
-	public void setAddresses(List<Address> addresses) {
+	public void setAddresses(List<AddressDto> addresses) {
 		this.addresses = addresses;
 	}
-	public List<Employee> getEmployees() {
+	public List<EmployeeDto> getEmployees() {
 		return employees;
 	}
-	public void setEmployees(List<Employee> employees) {
+	public void setEmployees(List<EmployeeDto> employees) {
 		this.employees = employees;
 	}	
 	
