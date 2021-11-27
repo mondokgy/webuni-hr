@@ -16,11 +16,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import hu.webuni.hr.gye.exception.TooManyRequestParamsException;
+import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.model.Position;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
 import hu.webuni.hr.gye.repository.PositionRepository;
 
@@ -163,5 +167,26 @@ abstract class AbstractEmployeeService implements EmployeeService {
 		}
 	    
 		return listEmployee;
+	}
+	
+	@Override
+	public List<Employee> findEmployeeByExample(Employee example){
+				
+		Long id 				= example.getEmployeeID();
+		String name 			= example.getName();
+		Position position 		= example.getPosition();
+		Integer salary 			= example.getSalary();
+		LocalDateTime stratDate = example.getStartWork();
+		Company company 		= example.getCompany();
+		
+		Specification <Employee> spec = Specification.where(null);
+		
+		if(id>0) {
+			spec = spec.and(EmployeeSpecifications.hasId(id));
+		}
+		if(StringUtils.hasText(name)) {
+			spec = spec.and(EmployeeSpecifications.hasName(name));
+		}
+		return null;
 	}
 }

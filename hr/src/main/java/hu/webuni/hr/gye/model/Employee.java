@@ -45,6 +45,13 @@ public class Employee {
 			this.company = company;
 		}
 	
+	public Employee(String name, Position position, Integer salary, LocalDateTime startWork) {
+		this.name = name;
+		this.position = position;
+		this.salary = salary;
+		this.startWork = startWork;
+	}
+	
 	public Long getEmployeeID() {
 		return employeeID;
 	}

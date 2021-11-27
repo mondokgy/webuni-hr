@@ -1,5 +1,6 @@
 package hu.webuni.hr.gye.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -7,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -51,6 +51,15 @@ public class Company {
 		this.addresses = addresses;
 	}
 
+	public Company(String name, String registrationNumber, CompanyType type, List<Employee> employees,
+			List<Address> addresses) {
+		super();
+		this.name = name;
+		this.registrationNumber = registrationNumber;
+		this.type = type;
+		this.employees = employees;
+		this.addresses = addresses;
+	}
 
 	public Long getCompanyId() {
 		return companyId;
@@ -81,7 +90,14 @@ public class Company {
 	}
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
-	}				
+	}
+	public void addEmployee(Employee employee) {
+		if(this.employees == null)
+			this.employees = new ArrayList<>();
+		
+		this.employees.add(employee);
+		employee.setCompany(this);
+	}
 	public CompanyType getType() {
 		return type;
 	}

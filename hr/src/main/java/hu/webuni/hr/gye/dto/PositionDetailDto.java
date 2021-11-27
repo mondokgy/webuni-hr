@@ -7,10 +7,10 @@ public class PositionDetailDto {
 	
 	private Long positionDetailID;
 	private Integer minSalary;
-	private Company company;
+	private CompanyDto company;
 	private Position position;
 	
-	public PositionDetailDto(Long positionDetailID, Integer minSalary, Company company, Position position) {
+	public PositionDetailDto(Long positionDetailID, Integer minSalary, CompanyDto company, Position position) {
 		super();
 		this.positionDetailID = positionDetailID;
 		this.minSalary = minSalary;
@@ -30,10 +30,10 @@ public class PositionDetailDto {
 	public void setMinSalary(Integer minSalary) {
 		this.minSalary = minSalary;
 	}
-	public Company getCompany() {
+	public CompanyDto getCompany() {
 		return company;
 	}
-	public void setCompany(Company company) {
+	public void setCompany(CompanyDto company) {
 		this.company = company;
 	}
 	public Position getPosition() {

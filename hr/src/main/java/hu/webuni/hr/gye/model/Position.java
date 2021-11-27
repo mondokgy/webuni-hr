@@ -30,6 +30,12 @@ public class Position {
 		this.minEducation = minEducation;
 	}
 	
+	public Position(String name, String minEducation) {
+		super();
+		this.name = name;
+		this.minEducation = minEducation;
+	}
+	
 	public Long getPositionID() {
 		return positionID;
 	}

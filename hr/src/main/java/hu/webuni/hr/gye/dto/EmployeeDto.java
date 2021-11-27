@@ -6,16 +6,16 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 
-import hu.webuni.hr.gye.model.Company;
+import hu.webuni.hr.gye.annotations.NotEmptyPosition;
 import hu.webuni.hr.gye.model.Position;
 
 public class EmployeeDto {
 	private Long employeeID;
 	@NotEmpty(message = "Name cannot be null")
 	private String name;
-	@NotEmpty(message = "Position cannot be null")
+	@NotEmptyPosition(message = "Position cannot be null")
 	private Position position;
-	@Positive(message = "Position cannot be null")
+	@Positive(message = "Salary cannot be null")
 	private Integer salary;
 	@Past
 	private LocalDateTime startWork;
@@ -76,4 +76,5 @@ public class EmployeeDto {
 		return "EmployeeDto [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary="
 				+ salary + ", startWork=" + startWork + "]";
 	} 
+	
 }

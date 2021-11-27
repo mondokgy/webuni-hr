@@ -21,10 +21,14 @@ public interface PositionMapper {
 	PositionDto positionToDto(Position position);
 	Position dtoToPosition(PositionDto positionDto);
 	
-	@Mapping(target="company", ignore=true)
+	//@Mapping(target="company", ignore=true)
 	@Named("summary")
 	PositionDetailDto positionDetailToDto(PositionDetail positionDetail);
 	
 	@IterableMapping(qualifiedByName="summary")
 	List<PositionDetailDto> positionDetailsToDto(List<PositionDetail> positionDetails);
+	
+	@Mapping(target = "employees", ignore = true)
+	@Mapping(target = "addresses", ignore = true)
+	CompanyDto companyToDto(Company company);
 }

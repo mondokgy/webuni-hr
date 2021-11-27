@@ -27,6 +27,10 @@ public class CompanyType {
 		this.type = type;
 	}
 
+	public CompanyType(String type) {
+		this.type = type;
+	}
+	
 	public Long getCompanyTypeId() {
 		return companyTypeId;
 	}

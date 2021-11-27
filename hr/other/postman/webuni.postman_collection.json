@@ -58,7 +58,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/104",
+							"raw": "http://localhost:8080/api/employees/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -67,7 +67,7 @@
 							"path": [
 								"api",
 								"employees",
-								"104"
+								"1"
 							]
 						}
 					},
@@ -91,7 +91,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees?salary=9000",
+							"raw": "http://localhost:8080/api/employees?salary=8000",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -104,7 +104,7 @@
 							"query": [
 								{
 									"key": "salary",
-									"value": "9000"
+									"value": "8000"
 								}
 							]
 						}
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Date Test\",\r\n    \"position\":\"c\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2012-03-12T19:30:40\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Date Test\",\r\n    \"position\": {\r\n            \"positionID\": 1,\r\n            \"name\": \"architect\",\r\n            \"minEducation\": \"foiskola\"\r\n        },\r\n    \"salary\":3000,\r\n    \"startWork\":\"2012-03-12T19:30:40\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -147,7 +147,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \r\n        \"name\": \"abcdefg\",\r\n        \"position\": \"123456\",\r\n        \"salary\": 9999000,\r\n        \"startWork\": \"2021-10-22T19:30:40\"\r\n    }",
+							"raw": "{\r\n        \r\n        \"name\": \"proba employee\",\r\n        \"position\": {\r\n            \"positionID\": 3,\r\n            \"name\": \"tester\",\r\n            \"minEducation\": \"erettsegi\"\r\n        },\r\n        \"salary\": 9999000,\r\n        \"startWork\": \"2021-10-22T19:30:40\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,7 +155,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/49",
+							"raw": "http://localhost:8080/api/employees/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -164,7 +164,7 @@
 							"path": [
 								"api",
 								"employees",
-								"49"
+								"5"
 							]
 						}
 					},
@@ -185,7 +185,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/employees/49",
+							"raw": "http://localhost:8080/api/employees/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -194,7 +194,7 @@
 							"path": [
 								"api",
 								"employees",
-								"49"
+								"11"
 							]
 						}
 					},
@@ -239,7 +239,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/employees?position=programmer&page=0&size=5&sort=salary,desc",
+							"raw": "http://localhost:8080/api/employees?position=programmer&page=1&size=5&sort=salary,desc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -256,7 +256,7 @@
 								},
 								{
 									"key": "page",
-									"value": "0"
+									"value": "1"
 								},
 								{
 									"key": "size",
@@ -337,7 +337,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/salary/{positionName}/raise/{salary}",
+							"raw": "http://localhost:8080/api/salary/programmer/raise/28000?companyId=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -346,9 +346,15 @@
 							"path": [
 								"api",
 								"salary",
-								"{positionName}",
+								"programmer",
 								"raise",
-								"{salary}"
+								"28000"
+							],
+							"query": [
+								{
+									"key": "companyId",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -447,7 +453,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/46",
+							"raw": "http://localhost:8080/api/companies/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -456,7 +462,7 @@
 							"path": [
 								"api",
 								"companies",
-								"46"
+								"1"
 							]
 						}
 					},
@@ -480,7 +486,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/46?full=true",
+							"raw": "http://localhost:8080/api/companies/1?full=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -489,7 +495,7 @@
 							"path": [
 								"api",
 								"companies",
-								"46"
+								"1"
 							],
 							"query": [
 								{
@@ -591,7 +597,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/companies/342/avgSalaryByPos",
+							"raw": "http://localhost:8080/api/companies/562/avgSalaryByPos",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -600,7 +606,7 @@
 							"path": [
 								"api",
 								"companies",
-								"342",
+								"562",
 								"avgSalaryByPos"
 							]
 						}
@@ -703,7 +709,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"employeeID\":11,\r\n    \"name\":\"Próba Róza9\",\r\n    \"position\":\"programmer\",\r\n    \"salary\":3000,\r\n    \"startWork\":\"2019-05-22T19:30:40\"\r\n}",
+							"raw": " {\r\n        \"employeeID\": 5,\r\n        \"name\": \"PrÃ³ba RÃ³za3\",\r\n        \"position\": {\r\n            \"positionID\": 1,\r\n            \"name\": \"programmer\",\r\n            \"minEducation\": \"foiskola\"\r\n        },\r\n        \"salary\": 4000,\r\n        \"startWork\": \"2012-03-12T19:30:40\",\r\n        \"company\": null\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -711,7 +717,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/companies/49/employees",
+							"raw": "http://localhost:8080/api/companies/1/employees",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -720,7 +726,7 @@
 							"path": [
 								"api",
 								"companies",
-								"49",
+								"1",
 								"employees"
 							]
 						}
@@ -845,7 +851,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/addresses/32",
+							"raw": "http://localhost:8080/api/addresses/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -854,7 +860,7 @@
 							"path": [
 								"api",
 								"addresses",
-								"32"
+								"1"
 							]
 						}
 					},

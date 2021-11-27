@@ -21,4 +21,6 @@ public interface EmployeeService{
 	public Optional<Employee> findById(Long id);
 	public Employee delete(Long id);
 	public Employee modify(Long id, Employee employee);
+	public List<Employee> findEmployeeByExample(Employee example);
+
 }

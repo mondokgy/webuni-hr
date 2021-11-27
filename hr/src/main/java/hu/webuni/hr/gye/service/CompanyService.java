@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import hu.webuni.hr.gye.dto.CompanyDto;
@@ -28,12 +29,17 @@ public class CompanyService {
 		return companyRepository.save(company);
 	}
 	
+	@Transactional
 	public List<Company> findAll(){
-		return  companyRepository.findAll();
+		List<Company> clist = companyRepository.findAllWithEmployee();
+		return companyRepository.findAllWithAddresses(clist);
 	}
 	
+	@Transactional
 	public Optional<Company> findById(Long id){
-		return companyRepository.findById(id);
+		List<Company> cList = companyRepository.findAllWithEmployeeById();
+		Optional<Company> optCompany = Optional.of(companyRepository.findAllWithAddressesById(cList,id));
+		return optCompany;		
 	}
 		
 	public void delete(Long id) {
@@ -56,19 +62,17 @@ public class CompanyService {
 		
 	
 	public Company addEmployee(Long id, Employee employee) {
-		log.debug("called CompanyService.modify()");		
+		log.debug("called CompanyService.addEmployee()");		
 		
 		Company company =  findById(id).orElseThrow(()->new NoSuchElementException());
 
-		List<Employee> employeeList = company.getEmployees();
-		employeeList.add(employee);
-		company.setEmployees(employeeList);
+		company.addEmployee(employee);
 		
 		return companyRepository.save(company);
 	}
 	
 	public Company deleteEmployee(Long id, Long employeeId) {
-		log.debug("called CompanyService.modify()");		
+		log.debug("called CompanyService.deleteEmployee()");		
 		
 		Company company =  findById(id).orElseThrow(()->new NoSuchElementException());
 
@@ -80,7 +84,7 @@ public class CompanyService {
 	}
 	
 	public Company modifyEmployee(Long id, List<Employee> listEmployees) {
-		log.debug("called CompanyService.modify()");		
+		log.debug("called CompanyService.modifyEmployee()");		
 		
 		Company company =  findById(id).orElseThrow(()->new NoSuchElementException());
 
