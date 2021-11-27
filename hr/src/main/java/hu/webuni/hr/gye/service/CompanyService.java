@@ -37,8 +37,8 @@ public class CompanyService {
 	
 	@Transactional
 	public Optional<Company> findById(Long id){
-		List<Company> cList = companyRepository.findAllWithEmployeeById();
-		Optional<Company> optCompany = Optional.of(companyRepository.findAllWithAddressesById(cList,id));
+		Company company = companyRepository.findWithEmployeeById(id);
+		Optional<Company> optCompany = Optional.of(companyRepository.findWithAddressesById(company,id));
 		return optCompany;		
 	}
 		

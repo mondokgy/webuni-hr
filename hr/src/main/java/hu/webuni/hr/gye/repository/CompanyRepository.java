@@ -34,14 +34,14 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
 	public List<Company> findAllWithAddresses(List<Company> clist);
 	
 	
-	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.employees")
+	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.employees where c.companyId = :companyId")
 	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
             forCounting = false)
-	public List<Company> findAllWithEmployeeById();
+	public Company findWithEmployeeById(Long companyId);
 	
-	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.addresses where c in :clist and c.companyId = :companyId")
+	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.addresses where c = :company and c.companyId = :companyId")
 	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
             forCounting = false)
-	public Company findAllWithAddressesById(List<Company> clist, Long companyId);
+	public Company findWithAddressesById(Company company, Long companyId);
 }
 
