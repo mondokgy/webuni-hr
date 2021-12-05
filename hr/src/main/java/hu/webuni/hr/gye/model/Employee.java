@@ -1,6 +1,7 @@
 package hu.webuni.hr.gye.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.stereotype.Component;
@@ -32,6 +34,9 @@ public class Employee {
 	@ManyToOne
 	Company company;
 	
+	@OneToMany(mappedBy = "createdBy")
+	private List<Holidays> holidays;
+
 	public Employee() {
 
 	}
@@ -89,10 +94,18 @@ public class Employee {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+	
+	public List<Holidays> getHolidays() {
+		return holidays;
+	}
 
+	public void setHolidays(List<Holidays> holidays) {
+		this.holidays = holidays;
+	}
+	
 	@Override
 	public String toString() {
 		return "Employee [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary=" + salary
-				+ ", startWork=" + startWork + ", company=" + company + "]";
+				+ ", startWork=" + startWork + ", company=" + company + ", holidayRequests=" + holidays + "]";
 	} 
 }

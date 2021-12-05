@@ -64,6 +64,13 @@ abstract class AbstractEmployeeService implements EmployeeService {
 	
 	@Override
 	@Transactional
+	public Employee findByIdWithHoliday(Long id){
+		log.debug("called AbstractEmployeeService.findByIdWithHoliday()");
+		return employeeRepository.findByIdWithHoliday(id);
+	}
+	
+	@Override
+	@Transactional
 	public Employee delete(Long id) {
 		log.debug("called AbstractEmployeeService.delete()");
 		Employee employee = findById(id)

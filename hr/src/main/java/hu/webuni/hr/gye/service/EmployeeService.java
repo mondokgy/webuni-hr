@@ -22,5 +22,6 @@ public interface EmployeeService{
 	public Employee delete(Long id);
 	public Employee modify(Long id, Employee employee);
 	public List<Employee> findEmployeeByExample(Employee example);
+	public Employee findByIdWithHoliday(Long id);
 
 }

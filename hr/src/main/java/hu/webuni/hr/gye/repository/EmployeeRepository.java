@@ -3,12 +3,15 @@ package hu.webuni.hr.gye.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.QueryHint;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.webuni.hr.gye.model.Company;
@@ -52,4 +55,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 			+ "WHERE e2.position.name = :positionName "
 			+ "AND e2.salary < :minSalary)")
 	void updateSalaries(String positionName, int minSalary);
+	
+	@Query("SELECT distinct e FROM Employee e LEFT JOIN FETCH e.holidays h where e.employeeID = :id")
+	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
+            forCounting = false)
+	public Employee findByIdWithHoliday(Long id);
 }
