@@ -1,5 +1,6 @@
 package hu.webuni.hr.gye.web;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +27,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.webuni.hr.gye.dto.CompanyDto;
 import hu.webuni.hr.gye.dto.EmployeeDto;
 import hu.webuni.hr.gye.exception.TooManyRequestParamsException;
 import hu.webuni.hr.gye.mapper.EmployeeMapper;
+import hu.webuni.hr.gye.model.Company;
 import hu.webuni.hr.gye.model.Employee;
+import hu.webuni.hr.gye.model.Position;
 import hu.webuni.hr.gye.service.EmployeeService;
 
 @RestController
@@ -171,5 +175,15 @@ public class EmployeeController {
 	@GetMapping("/payraise")
 	public int getPayRaise(@RequestBody Employee employee) {
 		return employeeService.getPayRaisePercent(employee);
+	}
+	
+	@PostMapping("/employeeSearch")
+	public List<EmployeeDto> getByParams(@RequestBody EmployeeDto employeeDto){
+		
+		log.debug("restapi controller, /paramSearch, get, getByParams start");
+		
+		List<Employee> employees = employeeService.findEmployeeByExample(employeeMapper.dtoToEmployee(employeeDto));
+
+		return employeeMapper.employeesToDto(employees);
 	}
 }

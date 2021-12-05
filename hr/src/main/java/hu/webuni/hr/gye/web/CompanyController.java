@@ -53,17 +53,14 @@ public class CompanyController {
 		log.debug("restapi controller, /, get, getAll start");
 		
 		List<Company> allCompanies = null;
+		allCompanies = companyService.findAll();
 		
 		if(full == null || !full) {
 			log.debug("Full is null or false, return without employee.");
-			allCompanies = companyService.findAll();
-			log.debug("restapi controller, /, get, getAll end");
-			
+
 			return companyMapper.companiesToDtoWithOutEmployee(allCompanies);
 		}else {
 			log.debug("Full is true, return filtered companies");			
-			allCompanies = companyService.findAll();
-			log.debug("restapi controller, /, get, getAll end");
 			
 			return companyMapper.companiesToDto(allCompanies);
 		}
@@ -167,16 +164,13 @@ public class CompanyController {
 	@GetMapping(params = "moreThenSalary")
 	public List<CompanyDto> getCompaniesAboveASalary(@RequestParam int moreThenSalary,
 			@RequestParam(required = false) Boolean full) {
-		List<Company> filteredCompanies = companyRepository.findByEmployeeWithSalaryHigherThan(moreThenSalary);
+		List<Company> filteredCompanies = companyService.findByEmployeeWithSalaryHigherThan(moreThenSalary);
 		if(full == null || !full) {
 			log.debug("Full is null or false, return without employee.");
-			
-			log.debug("restapi controller, /, get, getAll end");
+
 			return companyMapper.companiesToDtoWithOutEmployee(filteredCompanies);
 		}else {
 			log.debug("Full is true, return filtered companies");
-			log.debug("restapi controller, /, get, getAll end");
-			
 			return companyMapper.companiesToDto(filteredCompanies);
 		}
 	}
@@ -185,16 +179,14 @@ public class CompanyController {
 	@GetMapping(params = "moreThenEmployeeCount")
 	public List<CompanyDto> getCompaniesAboveEmployeeNumber(@RequestParam int moreThenEmployeeCount,
 			@RequestParam(required = false) Boolean full) {
-		List<Company> filteredCompanies = companyRepository.findByEmployeeCountHigherThan(moreThenEmployeeCount);
+		List<Company> filteredCompanies = companyService.findByEmployeeCountHigherThan(moreThenEmployeeCount);
 		if(full == null || !full) {
 			log.debug("Full is null or false, return without employee.");
-			
-			log.debug("restapi controller, /, get, getAll end");
+
 			return companyMapper.companiesToDtoWithOutEmployee(filteredCompanies);
 		}else {
 			log.debug("Full is true, return filtered companies");
-			log.debug("restapi controller, /, get, getAll end");
-			
+
 			return companyMapper.companiesToDto(filteredCompanies);
 		}
 	}
@@ -204,4 +196,5 @@ public class CompanyController {
 		return companyRepository.findAverageSalariesByPosition(id);
 	}
 	
+
 }

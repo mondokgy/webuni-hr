@@ -98,6 +98,21 @@ public class Company {
 		this.employees.add(employee);
 		employee.setCompany(this);
 	}
+	
+	public boolean deleteEmployee(Employee employee) {
+
+		if(this.employees.contains(employee)) {
+			this.employees.remove(employee);
+			employee.setCompany(this);
+			return true;
+		}
+		return false;
+	}
+	
+	public void modifyEmployee(List<Employee> employees) {
+		this.employees = employees;
+	}
+	
 	public CompanyType getType() {
 		return type;
 	}

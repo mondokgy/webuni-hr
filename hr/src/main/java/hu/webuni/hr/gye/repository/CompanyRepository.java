@@ -12,10 +12,16 @@ import hu.webuni.hr.gye.dto.AvgSalaryByPosition;
 import hu.webuni.hr.gye.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Long>{
-	@Query("SELECT DISTINCT c FROM Company c JOIN c.employees e WHERE e.salary > :minSalary")
+	//@Query("SELECT DISTINCT c FROM Company c JOIN c.employees e WHERE e.salary > :minSalary")
+	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.employees e where e.salary > :minSalary")
+	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
+            forCounting = false)
 	public List<Company> findByEmployeeWithSalaryHigherThan(int minSalary);
 	
-	@Query("SELECT c FROM Company c WHERE SIZE(c.employees) > :minEmployeeCount")
+	//@Query("SELECT c FROM Company c WHERE SIZE(c.employees) > :minEmployeeCount")
+	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.employees  where SIZE(c.employees) > :minEmployeeCount")
+	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
+            forCounting = false)
 	public List<Company> findByEmployeeCountHigherThan(int minEmployeeCount);
 
 	@Query("SELECT new  hu.webuni.hr.gye.dto.AvgSalaryByPosition(avg(e.salary),e.position)"
@@ -39,9 +45,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
             forCounting = false)
 	public Company findWithEmployeeById(Long companyId);
 	
-	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.addresses where c = :company and c.companyId = :companyId")
+	@Query("SELECT distinct c FROM Company c LEFT JOIN FETCH c.addresses where c = :company")
 	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
             forCounting = false)
-	public Company findWithAddressesById(Company company, Long companyId);
+	public Company findWithAddressesById(Company company);
 }
 

@@ -82,6 +82,7 @@ abstract class AbstractEmployeeService implements EmployeeService {
 		changedEmployee.setEmployeeID(id);
 		
 		return employeeRepository.save(changedEmployee);
+		//return changedEmployee;
 
 	}
 	
@@ -187,6 +188,18 @@ abstract class AbstractEmployeeService implements EmployeeService {
 		if(StringUtils.hasText(name)) {
 			spec = spec.and(EmployeeSpecifications.hasName(name));
 		}
-		return null;
+		if(position !=null && StringUtils.hasText(position.getName())) {
+			spec = spec.and(EmployeeSpecifications.hasPosition(position));
+		}
+		if(salary>0) {
+			spec = spec.and(EmployeeSpecifications.hasSalary(salary));
+		}
+		if(company !=null && StringUtils.hasText(company.getName())) {
+			spec = spec.and(EmployeeSpecifications.hasCompanyName(company.getName()));
+		}
+		if(stratDate != null) {
+			spec = spec.and(EmployeeSpecifications.hasStartDate(stratDate));
+		}
+		return employeeRepository.findAll(spec);
 	}
 }
