@@ -73,7 +73,7 @@ public class HolidaysService {
 		if (holiday.getStatus().equals(HolidayStatus.DELETED))
 			throw new HolidayAlreadyApprovedException("Holiday is deleted already.");
 		newHoliday.setHolidaysId(id);
-		newHoliday.setCreatedBy(holiday.getCreatedBy());
+		newHoliday.setCreatedBy(newHoliday.getCreatedBy());
 		newHoliday.setCreatedDate(LocalDateTime.now());
 		newHoliday.setStatus(HolidayStatus.NEW);
 		newHoliday.setStatusDate(LocalDateTime.now());

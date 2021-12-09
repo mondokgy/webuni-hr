@@ -1178,6 +1178,210 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Holidays",
+			"item": [
+				{
+					"name": "New holiday",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"employeeId\": 5,\r\n        \"holidayStart\": \"2022-06-12T08:30:40\",\r\n        \"holidayEnd\": \"2022-06-23T01:00:00\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/holiday",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approval holiday",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/holiday/1/approval?approve=true&approverId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday",
+								"1",
+								"approval"
+							],
+							"query": [
+								{
+									"key": "approve",
+									"value": "true"
+								},
+								{
+									"key": "approverId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modify holiday",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"holidayStart\": \"2022-10-26T08:30:40\",\r\n        \"holidayEnd\": \"2022-11-03T01:00:00\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/holiday/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all holidays",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/holiday?page=1&size=3&sort=holidaysId,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "holidaysId,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search holidays",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"NEW\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/holiday/holidaySearch?page=1&size=3&sort=holidaysId,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday",
+								"holidaySearch"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "holidaysId,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete holidays",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/holiday/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"holiday",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
