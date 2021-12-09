@@ -21,13 +21,13 @@ public class Holidays {
 	private LocalDateTime createdDate;
 	
 	@ManyToOne
-	private Employee approveBy;
+	private Employee approvedBy;
 	private LocalDateTime approveDate;
 	
 	private LocalDateTime holidayStart;
 	private LocalDateTime holidayEnd;
 	
-	private String status;
+	private HolidayStatus status;
 	private LocalDateTime statusDate;
 	
 	public Holidays() {
@@ -35,13 +35,13 @@ public class Holidays {
 	}
 	
 	public Holidays(Long holidaysId, Employee createdBy, LocalDateTime createdDate, Employee approveBy,
-			LocalDateTime approveDate, LocalDateTime holidayStart, LocalDateTime holidayEnd, String status,
+			LocalDateTime approveDate, LocalDateTime holidayStart, LocalDateTime holidayEnd, HolidayStatus status,
 			LocalDateTime statusDate) {
 
 		this.holidaysId = holidaysId;
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
-		this.approveBy = approveBy;
+		this.approvedBy = approveBy;
 		this.approveDate = approveDate;
 		this.holidayStart = holidayStart;
 		this.holidayEnd = holidayEnd;
@@ -73,12 +73,12 @@ public class Holidays {
 		this.createdDate = createdDate;
 	}
 
-	public Employee getApproveBy() {
-		return approveBy;
+	public Employee getApprovedBy() {
+		return approvedBy;
 	}
 
-	public void setApproveBy(Employee approveBy) {
-		this.approveBy = approveBy;
+	public void setApprovedBy(Employee approvedBy) {
+		this.approvedBy = approvedBy;
 	}
 
 	public LocalDateTime getApproveDate() {
@@ -105,11 +105,11 @@ public class Holidays {
 		this.holidayEnd = holidayEnd;
 	}
 
-	public String getStatus() {
+	public HolidayStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(HolidayStatus status) {
 		this.status = status;
 	}
 
@@ -124,8 +124,11 @@ public class Holidays {
 	@Override
 	public String toString() {
 		return "Holidays [holidaysId=" + holidaysId + ", createdBy=" + createdBy + ", createdDate=" + createdDate
-				+ ", approveBy=" + approveBy + ", approveDate=" + approveDate + ", holidayStart=" + holidayStart
+				+ ", approvedBy=" + approvedBy + ", approveDate=" + approveDate + ", holidayStart=" + holidayStart
 				+ ", holidayEnd=" + holidayEnd + ", status=" + status + ", statusDate=" + statusDate + "]";
 	}
 	
+	public enum HolidayStatus {
+		NEW, DELETED, APPROVED, REJECTED;
+	}
 }

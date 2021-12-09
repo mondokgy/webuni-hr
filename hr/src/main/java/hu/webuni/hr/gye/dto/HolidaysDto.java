@@ -6,10 +6,10 @@ public class HolidaysDto {
 
 	private Long holidaysId;
 		
-	private EmployeeDto createdBy;
+	private Long employeeId;
 	private LocalDateTime createdDate;
 	
-	private EmployeeDto approveBy;
+	private Long approverId;
 	private LocalDateTime approveDate;
 	
 	private LocalDateTime holidayStart;
@@ -22,14 +22,14 @@ public class HolidaysDto {
 		
 	}
 	
-	public HolidaysDto(Long holidaysId, EmployeeDto createdBy, LocalDateTime createdDate, EmployeeDto approveBy,
+	public HolidaysDto(Long holidaysId, Long employeeId, LocalDateTime createdDate, Long approverId,
 			LocalDateTime approveDate, LocalDateTime holidayStart, LocalDateTime holidayEnd, String status,
 			LocalDateTime statusDate) {
 		super();
 		this.holidaysId = holidaysId;
-		this.createdBy = createdBy;
+		this.employeeId = employeeId;
 		this.createdDate = createdDate;
-		this.approveBy = approveBy;
+		this.approverId = approverId;
 		this.approveDate = approveDate;
 		this.holidayStart = holidayStart;
 		this.holidayEnd = holidayEnd;
@@ -45,12 +45,12 @@ public class HolidaysDto {
 		this.holidaysId = holidaysId;
 	}
 
-	public EmployeeDto getCreatedBy() {
-		return createdBy;
+	public Long getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setCreatedBy(EmployeeDto createdBy) {
-		this.createdBy = createdBy;
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -61,12 +61,12 @@ public class HolidaysDto {
 		this.createdDate = createdDate;
 	}
 
-	public EmployeeDto getApproveBy() {
-		return approveBy;
+	public Long getApproverId() {
+		return approverId;
 	}
 
-	public void setApproveBy(EmployeeDto approveBy) {
-		this.approveBy = approveBy;
+	public void setApproverId(Long approverId) {
+		this.approverId = approverId;
 	}
 
 	public LocalDateTime getApproveDate() {
@@ -111,8 +111,8 @@ public class HolidaysDto {
 
 	@Override
 	public String toString() {
-		return "HolidaysDto [holidaysId=" + holidaysId + ", createdBy=" + createdBy + ", createdDate=" + createdDate
-				+ ", approveBy=" + approveBy + ", approveDate=" + approveDate + ", holidayStart=" + holidayStart
+		return "HolidaysDto [holidaysId=" + holidaysId + ", employeeId=" + employeeId + ", createdDate=" + createdDate
+				+ ", approverId=" + approverId + ", approveDate=" + approveDate + ", holidayStart=" + holidayStart
 				+ ", holidayEnd=" + holidayEnd + ", status=" + status + ", statusDate=" + statusDate + "]";
 	}
 	

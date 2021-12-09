@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import hu.webuni.hr.gye.model.Company_;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Employee_;
+import hu.webuni.hr.gye.model.Holidays;
 import hu.webuni.hr.gye.model.Position;
 import hu.webuni.hr.gye.model.Position_;
 
