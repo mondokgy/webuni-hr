@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import hu.webuni.hr.gye.dto.EmployeeDto;
 import hu.webuni.hr.gye.dto.HolidaysDto;
 import hu.webuni.hr.gye.exception.HolidayAlreadyApprovedException;
+import hu.webuni.hr.gye.exception.NotAccessException;
 import hu.webuni.hr.gye.mapper.HolidaysMapper;
-import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Holidays;
 import hu.webuni.hr.gye.service.HolidaysService;
 
@@ -54,6 +54,7 @@ public class HolidaysController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("#newHoliday.employeeId == authentication.principal.employee.employeeID")
 	public HolidaysDto addHoliday(@RequestBody @Valid HolidaysDto newHoliday) {
 		Holidays holiday;
 		try {
@@ -65,6 +66,7 @@ public class HolidaysController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("#modifiedHoliday.employeeId == authentication.principal.employee.employeeID")
 	public HolidaysDto modifyHolidayRequest(@PathVariable long id, @RequestBody @Valid HolidaysDto modifiedHoliday) {
 		
 		Holidays holiday = null;
@@ -87,6 +89,8 @@ public class HolidaysController {
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		} catch (NoSuchElementException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		} catch (NotAccessException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
 	}
 	
@@ -99,6 +103,8 @@ public class HolidaysController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		} catch (HolidayAlreadyApprovedException e) {
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+		} catch (NotAccessException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
 		return holidaysMapper.holidayToDto(holiday);
 	}

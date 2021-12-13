@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
+import hu.webuni.hr.gye.dto.EmployeeDto;
+import hu.webuni.hr.gye.dto.HolidaysDto;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Holidays;
 import hu.webuni.hr.gye.model.Holidays.HolidayStatus;
@@ -21,11 +29,15 @@ import hu.webuni.hr.gye.repository.HolidaysRepository;
 import hu.webuni.hr.gye.repository.PositionDetailRepository;
 import hu.webuni.hr.gye.repository.PositionRepository;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
 public class HolidaysServiceIT {
 
-
+	private static final String BASE_URI = "/api/holiday";
+	
+	@Autowired
+	WebTestClient webTestClient;
+	
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
@@ -40,6 +52,13 @@ public class HolidaysServiceIT {
 	
 	@Autowired
 	HolidaysService holidayService;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	String userName = "user1";
+	String pass = "pass";
+	String userManager = "user";
 	
 	@BeforeEach
 	public void init() {
@@ -59,11 +78,23 @@ public class HolidaysServiceIT {
 		
 		List<Employee> eList = new ArrayList<Employee>();
 		
-		Employee e1 = employeeRepository.save(new Employee("Test Employee1",p1,15000,dateTime));
+		Employee e1 = new Employee("Test Employee1",p1,15000,dateTime);
+		e1.setUsername("user");
+		e1.setPassword(passwordEncoder.encode("pass"));
+		e1.setManager(e1);
+		employeeRepository.save(e1);
 		eList.add(e1);
-		Employee e2 = employeeRepository.save(new Employee("Test Employee2",p2,5000,dateTime.plusDays(50)));
-		eList.add(e2);
-		Employee e3 = employeeRepository.save(new Employee("Test Employee3",p3,8000,dateTime.minusDays(50)));
+		Employee e2 = new Employee("Test Employee2",p2,5000,dateTime.plusDays(50));
+		e2.setUsername("user1");
+		e2.setPassword(passwordEncoder.encode("pass"));
+		e2.setManager(e1);
+		employeeRepository.save(e2);
+		eList.add(e2);		
+		Employee e3 = new Employee("Test Employee3",p3,8000,dateTime.minusDays(50));
+		e3.setUsername("user2");
+		e3.setPassword(passwordEncoder.encode("pass"));
+		e3.setManager(e1);
+		employeeRepository.save(e3);
 		eList.add(e3);
 		
 		return eList;
@@ -74,20 +105,20 @@ public class HolidaysServiceIT {
 		
 		List<Employee> eList = initData();
 		
-		List<Holidays> allHolidaysBefore = holidayRepository.findAll();
+		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
 		
-		Employee employee = eList.get(0);
+		Employee employee = eList.get(1);
 		
 		LocalDateTime dateTime = LocalDateTime.now();
 	
-		Holidays holiday;
+		HolidaysDto holiday;
 	
 		for (int i = 0; i < 5; i++) {
-			holiday = new Holidays(null, employee, dateTime, null, null, dateTime.plusDays(10), dateTime.plusDays(17), HolidayStatus.NEW, dateTime); 
-			holidayService.addHoliday(holiday);
+			holiday  = new HolidaysDto(null, employee.getEmployeeID(), dateTime, null, null, dateTime.plusDays(10), dateTime.plusDays(17), HolidayStatus.NEW.toString(), dateTime); 			
+			saveHolidays(holiday).expectStatus().isOk();
 		}
 
-		List<Holidays> allHolidaysAfter = holidayRepository.findAll();
+		List<HolidaysDto> allHolidaysAfter = getAllHolidays();
 		
 		assertThat(allHolidaysAfter.size()).isEqualTo(allHolidaysBefore.size() + 5);
 		
@@ -98,15 +129,15 @@ public class HolidaysServiceIT {
 		
 		testcreateHoliday();
 		
-		List<Holidays> allHolidaysBefore = holidayRepository.findAll();
-
+		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
+		
 		Long testId = allHolidaysBefore.get(0).getHolidaysId();
 		
-		holidayService.deleteHoliday(testId);
+		deleteHolidays(testId).expectStatus().isOk();
 		
 		Holidays holiday = holidayRepository.findById(testId).get();
 				
-		List<Holidays> allHolidaysAfter = holidayRepository.findAll();
+		List<HolidaysDto> allHolidaysAfter = getAllHolidays();
 		
 		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.DELETED);
 		assertThat(allHolidaysAfter.size()).isEqualTo(allHolidaysBefore.size());
@@ -117,29 +148,26 @@ public class HolidaysServiceIT {
 		
 		testcreateHoliday();
 		
-		List<Holidays> allHolidaysBefore = holidayRepository.findAll();
-
-		Long testId = allHolidaysBefore.get(0).getHolidaysId();
+		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
+		
+		HolidaysDto  testHoliday = allHolidaysBefore.get(0);
 		
 		LocalDateTime dateTime = LocalDateTime.now();
-		
-		List<Employee> employeeList = employeeRepository.findAll();
-		
-		Employee employee = employeeList.get(employeeList.size()-1);
 		
 		LocalDateTime start = dateTime.plusDays(300);
 		LocalDateTime end = dateTime.plusDays(310);
 		
-		Holidays newHoliday = new Holidays(null, employee, dateTime, null, null, start, end, HolidayStatus.NEW, dateTime);
+		testHoliday.setHolidayStart(start);
+		testHoliday.setHolidayEnd(end);
 		
-		holidayService.modifyHoliday(testId, newHoliday);
+		modifyHolidays(testHoliday).expectStatus().isOk();
 		
-		Holidays holiday = holidayRepository.findWithEmployeeById(testId);
-				
-		List<Holidays> allHolidaysAfter = holidayRepository.findAll();
+		List<HolidaysDto> allHolidaysAfter = getAllHolidays();
 		
-		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.NEW);
-		assertThat(holiday.getCreatedBy().getEmployeeID()).isEqualTo(employee.getEmployeeID());
+		HolidaysDto holiday = allHolidaysAfter.get(0);
+		
+		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.NEW.toString());
+		assertThat(holiday.getEmployeeId()).isEqualTo(testHoliday.getEmployeeId());
 		assertThat(holiday.getHolidayStart()).isEqualToIgnoringSeconds(start);
 		assertThat(holiday.getHolidayEnd()).isEqualToIgnoringSeconds(end);
 		assertThat(allHolidaysAfter.size()).isEqualTo(allHolidaysBefore.size());
@@ -149,22 +177,21 @@ public class HolidaysServiceIT {
 	void testApproveHoliday() throws Exception{
 		
 		testcreateHoliday();
-		
-		List<Holidays> allHolidaysBefore = holidayRepository.findAll();
 
-		Long testId = allHolidaysBefore.get(0).getHolidaysId();
+		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
+		
+		HolidaysDto testHoliday = allHolidaysBefore.get(0);
 
-		List<Employee> employeeList = employeeRepository.findAll();
+		Employee employee = employeeRepository.findById(testHoliday.getEmployeeId()).get();
+
+		Long managerId = employee.getManager().getEmployeeID();
 		
-		Employee employee = employeeList.get(employeeList.size()-1);
+		approveyHolidays(testHoliday.getHolidaysId(), managerId, true).expectStatus().isOk();
+
+		List<HolidaysDto> allHolidaysAfter = getAllHolidays();
+		HolidaysDto holiday = allHolidaysAfter.get(0);
 		
-		holidayService.approveHoliday(testId, employee.getEmployeeID(), true);
-		
-		Holidays holiday = holidayRepository.findWithEmployeeById(testId);
-				
-		List<Holidays> allHolidaysAfter = holidayRepository.findAll();
-		
-		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.APPROVED);
+		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.APPROVED.toString());
 		assertThat(allHolidaysAfter.size()).isEqualTo(allHolidaysBefore.size());
 	}
 	
@@ -172,22 +199,74 @@ public class HolidaysServiceIT {
 	void testRejectHoliday() throws Exception{
 		
 		testcreateHoliday();
-		
-		List<Holidays> allHolidaysBefore = holidayRepository.findAll();
 
-		Long testId = allHolidaysBefore.get(0).getHolidaysId();
+		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
+		
+		HolidaysDto testHoliday = allHolidaysBefore.get(0);
 
-		List<Employee> employeeList = employeeRepository.findAll();
+		Employee employee = employeeRepository.findById(testHoliday.getEmployeeId()).get();
+
+		Long managerId = employee.getManager().getEmployeeID();
 		
-		Employee employee = employeeList.get(employeeList.size()-1);
+		approveyHolidays(testHoliday.getHolidaysId(), managerId, false).expectStatus().isOk();
+
+		List<HolidaysDto> allHolidaysAfter = getAllHolidays();
+		HolidaysDto holiday = allHolidaysAfter.get(0);
 		
-		holidayService.approveHoliday(testId, employee.getEmployeeID(), false);
-		
-		Holidays holiday = holidayRepository.findWithEmployeeById(testId);
-				
-		List<Holidays> allHolidaysAfter = holidayRepository.findAll();
-		
-		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.REJECTED);
+		assertThat(holiday.getStatus()).isEqualTo(HolidayStatus.REJECTED.toString());
 		assertThat(allHolidaysAfter.size()).isEqualTo(allHolidaysBefore.size());
+	}
+	
+	
+	private ResponseSpec modifyHolidays(HolidaysDto newHoliday) {
+		String path = BASE_URI + "/" + newHoliday.getHolidaysId();
+		return webTestClient
+				.put()
+				.uri(path)
+				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.bodyValue(newHoliday)
+				.exchange();
+	}
+	
+	private ResponseSpec deleteHolidays(Long testId) {
+		String path = BASE_URI + "/" + testId.toString();
+		return webTestClient
+				.delete()
+				.uri(path)
+				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.exchange();
+	}
+	
+	private ResponseSpec saveHolidays(HolidaysDto newHoliday) {
+		return webTestClient
+				.post()
+				.uri(BASE_URI)
+				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.bodyValue(newHoliday)
+				.exchange();
+	}
+
+	private List<HolidaysDto> getAllHolidays() {
+		List<HolidaysDto> responseList = webTestClient
+				.get()
+				.uri(BASE_URI)
+				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.exchange()
+				.expectStatus()
+				.isOk()
+				.expectBodyList(HolidaysDto.class)
+				.returnResult()
+				.getResponseBody();
+		Collections.sort(responseList, Comparator.comparing(HolidaysDto::getHolidaysId));
+		return responseList;
+	}
+	
+	private ResponseSpec approveyHolidays(Long testId, Long approveId, Boolean approve) {
+		String path = BASE_URI + "/" + testId +"/approval?approverId="+approveId+"&approve="+approve.toString();
+		return webTestClient
+				.put()
+				.uri(path)
+				.headers(headers -> headers.setBasicAuth(userManager, pass))
+				.exchange();
 	}
 }

@@ -21,22 +21,28 @@ public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMPLOYEE_SEQUENCE_GENERATOR")
-	Long employeeID;
+	private Long employeeID;
 	
-	String name;
+	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name ="POSITION_ID")
-	Position position;
-	Integer salary;
-	LocalDateTime startWork;	
+	private Position position;
+	private Integer salary;
+	private LocalDateTime startWork;	
 	
 	@ManyToOne
-	Company company;
+	private Company company;
 	
 	@OneToMany(mappedBy = "createdBy")
 	private List<Holidays> holidays;
 
+	private String username;
+	private String password;
+	
+	@ManyToOne
+	private Employee manager;	
+	
 	public Employee() {
 
 	}
@@ -102,10 +108,35 @@ public class Employee {
 	public void setHolidays(List<Holidays> holidays) {
 		this.holidays = holidays;
 	}
-	
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Employee getManager() {
+		return manager;
+	}
+
+	public void setManager(Employee manager) {
+		this.manager = manager;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [employeeID=" + employeeID + ", name=" + name + ", position=" + position + ", salary=" + salary
-				+ ", startWork=" + startWork + ", company=" + company + ", holidayRequests=" + holidays + "]";
+				+ ", startWork=" + startWork + ", company=" + company + ", holidays=" + holidays + ", username="
+				+ username + ", password=" + password + ", manager=" + manager + "]";
 	} 
 }

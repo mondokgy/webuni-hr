@@ -5,10 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import hu.webuni.hr.gye.config.HrDbInitConfigProperties;
@@ -52,6 +54,9 @@ public class InitDbService {
 	@Autowired
 	HrDbInitConfigProperties configInitDb;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	public void clearDb(){		
 		positionDetailRepository.deleteAll();
 		companyRepository.deleteAll();		
@@ -91,13 +96,29 @@ public class InitDbService {
 			addressList.add(addressRepository.save(newAddress));
 		});
 
+		AtomicInteger postNick = new AtomicInteger(0);
+		
 		configInitDb.getEmployee().forEach(employee -> {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
 	    	LocalDateTime startDate = LocalDateTime.parse(employee.getStartWork(), formatter);
 			Employee newEmployee = new Employee(null,employee.getName(), positionRepository.findByName(employee.getPosition()), Integer.parseInt(employee.getSalary()) , startDate, null);
+			if(postNick.get()==0) {
+				newEmployee.setUsername("user");
+			}else {
+				newEmployee.setUsername("user"+postNick.toString());
+			}
+			postNick.getAndIncrement();
+			newEmployee.setPassword(passwordEncoder.encode("pass"));
 			employeeList.add(employeeRepository.save(newEmployee));
 		});
 		
+		Employee manager = employeeList.get(0);
+		
+		for(Employee e: employeeList) {
+			e.setManager(manager);
+			employeeRepository.save(e);
+		}
+
 		List<Company> companyList = companyRepository.findAll();
 		
 		int allAddress = 0;

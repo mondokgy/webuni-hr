@@ -12,16 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import hu.webuni.hr.gye.exception.HolidayAlreadyApprovedException;
+import hu.webuni.hr.gye.exception.NotAccessException;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Holidays;
 import hu.webuni.hr.gye.model.Holidays.HolidayStatus;
 import hu.webuni.hr.gye.repository.EmployeeRepository;
 import hu.webuni.hr.gye.repository.HolidaysRepository;
+import hu.webuni.hr.gye.security.HrUser;
 
 @Service
 public class HolidaysService {
@@ -85,8 +89,11 @@ public class HolidaysService {
 	}
 
 	@Transactional
-	public void deleteHoliday(long id) throws HolidayAlreadyApprovedException {
+	public void deleteHoliday(long id) throws HolidayAlreadyApprovedException, NotAccessException {
 		Holidays holiday = holidaysRepository.findById(id).get();
+		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(!holiday.getCreatedBy().getUsername().equals(userName))
+			throw new NotAccessException("Invalid user request.");
 		if (holiday.getApprovedBy() != null)
 			throw new HolidayAlreadyApprovedException("Holiday is approved already.");
 		if (holiday.getStatus().equals(HolidayStatus.DELETED))
@@ -99,8 +106,16 @@ public class HolidaysService {
 	}
 	
 	@Transactional
-	public Holidays approveHoliday(long id, long approverId, boolean approve) throws HolidayAlreadyApprovedException {
+	public Holidays approveHoliday(long id, long approverId, boolean approve) throws HolidayAlreadyApprovedException, NotAccessException {
 		Holidays holiday = holidaysRepository.findById(id).get();
+		Long managerId = holiday.getCreatedBy().getManager().getEmployeeID();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Long employeeId = null;
+		if (principal instanceof HrUser) {
+			employeeId = ((HrUser) principal).getEmployee().getEmployeeID();
+		}
+		if( employeeId==null || employeeId != approverId || managerId != approverId )
+			throw new NotAccessException("Invalid user request.");
 		if (holiday.getApprovedBy() != null)
 			throw new HolidayAlreadyApprovedException("Holiday is approved already.");
 		if (holiday.getStatus().equals(HolidayStatus.DELETED))

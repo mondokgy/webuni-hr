@@ -2,6 +2,7 @@ package hu.webuni.hr.gye.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.QueryHint;
 
@@ -60,4 +61,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 	@QueryHints(value = {@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false")},
             forCounting = false)
 	public Employee findByIdWithHoliday(Long id);
+	
+	Optional<Employee> findByUsername(String username);
 }
