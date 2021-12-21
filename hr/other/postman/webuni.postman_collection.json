@@ -14,6 +14,21 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1185,11 +1200,21 @@
 				{
 					"name": "New holiday",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsIm1hbmFnZXIiOnsidXNlcm5hbWUiOiJUZXN6dCBFbGVrIiwiaWQiOjF9LCJhdXRoIjpbIlVTRVIiXSwiaXNzIjoiSHJBcHAiLCJmdWxsbmFtZSI6IlByw4PCs2JhIFLDg8KzemEiLCJpZCI6MiwiZXhwIjoxNjQwMTIwMDA3fQ.oL8b95AoLDt2pAjtmxGrVeW6ZmW4kmbhx1YJFfmNCaFLUmHJjfeYbBY_3xd6LnPYHGP-rjzGE74FOcQRyBNadQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"employeeId\": 5,\r\n        \"holidayStart\": \"2022-06-12T08:30:40\",\r\n        \"holidayEnd\": \"2022-06-23T01:00:00\"\r\n    }",
+							"raw": "    {\r\n        \"employeeId\": 2,\r\n        \"holidayStart\": \"2021-08-25T08:30:40\",\r\n        \"holidayEnd\": \"2021-08-29T01:00:00\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1214,6 +1239,16 @@
 				{
 					"name": "approval holiday",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJtYW5hZ2VkX2VtcGxveWVlX2lkcyI6WzUsNiw3LDgsOSwxMCwxLDIsMyw0XSwic3ViIjoidXNlciIsIm1hbmFnZXIiOnsidXNlcm5hbWUiOiJUZXN6dCBFbGVrIiwiaWQiOjF9LCJhdXRoIjpbIlVTRVIiXSwibWFuYWdlZF9lbXBsb3llZV91c2VybmFtZXMiOlsidXNlcjQiLCJ1c2VyNSIsInVzZXI2IiwidXNlcjciLCJ1c2VyOCIsInVzZXI5IiwidXNlciIsInVzZXIxIiwidXNlcjIiLCJ1c2VyMyJdLCJpc3MiOiJIckFwcCIsImZ1bGxuYW1lIjoiVGVzenQgRWxlayIsImlkIjoxLCJleHAiOjE2NDAxMjAxMTN9.DeD8kF-gy7QzRH9n5qBCSU3SQKASyjXUhZM4WMDoeC29eikFcCIGub0fGO5Apx6WEWrgZtQ1Wj_3zCf9hbY05Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -1226,7 +1261,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/holiday/1/approval?approve=true&approverId=3",
+							"raw": "http://localhost:8080/api/holiday/1/approval?approve=true&approverId=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1245,7 +1280,7 @@
 								},
 								{
 									"key": "approverId",
-									"value": "3"
+									"value": "1"
 								}
 							]
 						}
@@ -1255,11 +1290,21 @@
 				{
 					"name": "modify holiday",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsIm1hbmFnZXIiOnsidXNlcm5hbWUiOiJUZXN6dCBFbGVrIiwiaWQiOjF9LCJhdXRoIjpbIlVTRVIiXSwiaXNzIjoiSHJBcHAiLCJmdWxsbmFtZSI6IlByw4PCs2JhIFLDg8KzemEiLCJpZCI6MiwiZXhwIjoxNjQwMTIwMDA3fQ.oL8b95AoLDt2pAjtmxGrVeW6ZmW4kmbhx1YJFfmNCaFLUmHJjfeYbBY_3xd6LnPYHGP-rjzGE74FOcQRyBNadQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"holidayStart\": \"2022-10-26T08:30:40\",\r\n        \"holidayEnd\": \"2022-11-03T01:00:00\"\r\n    }",
+							"raw": "    {\r\n        \"employeeId\": 2,\r\n        \"holidayStart\": \"2022-10-26T08:30:40\",\r\n        \"holidayEnd\": \"2022-11-03T01:00:00\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1267,7 +1312,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/holiday/3",
+							"raw": "http://localhost:8080/api/holiday/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1276,7 +1321,7 @@
 							"path": [
 								"api",
 								"holiday",
-								"3"
+								"2"
 							]
 						}
 					},
@@ -1285,10 +1330,20 @@
 				{
 					"name": "all holidays",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJtYW5hZ2VkX2VtcGxveWVlX2lkcyI6WzUsNiw3LDgsOSwxMCwxLDIsMyw0XSwic3ViIjoidXNlciIsIm1hbmFnZXIiOnsidXNlcm5hbWUiOiJUZXN6dCBFbGVrIiwiaWQiOjF9LCJhdXRoIjpbIlVTRVIiXSwibWFuYWdlZF9lbXBsb3llZV91c2VybmFtZXMiOlsidXNlcjQiLCJ1c2VyNSIsInVzZXI2IiwidXNlcjciLCJ1c2VyOCIsInVzZXI5IiwidXNlciIsInVzZXIxIiwidXNlcjIiLCJ1c2VyMyJdLCJpc3MiOiJIckFwcCIsImZ1bGxuYW1lIjoiVGVzenQgRWxlayIsImlkIjoxLCJleHAiOjE2NDAxMTk5MDh9.aTD_yqgcoTlY9SE8h9lFdd9QrKbVMmzlz10EE9XCKLY1JfJNckvPVhLAY3mWocCQ4ReSYnmMokZqi7GjYTC51A",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/holiday?page=1&size=3&sort=holidaysId,asc",
+							"raw": "http://localhost:8080/api/holiday?page=0&size=10&sort=holidaysId,asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1301,11 +1356,11 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "0"
 								},
 								{
 									"key": "size",
-									"value": "3"
+									"value": "10"
 								},
 								{
 									"key": "sort",
@@ -1319,11 +1374,26 @@
 				{
 					"name": "search holidays",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"NEW\"\r\n}",
+							"raw": "{\r\n    \"status\": \"NEW\",\r\n    \"approverId\": null,\r\n    \"holidayStart\": \"2020-05-12T08:30:40\",\r\n    \"holidayEnd\": \"2022-12-12T08:30:40\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1331,7 +1401,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/holiday/holidaySearch?page=1&size=3&sort=holidaysId,asc",
+							"raw": "http://localhost:8080/api/holiday/holidaySearch?page=0&size=10&sort=holidayStart,asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1345,15 +1415,15 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "0"
 								},
 								{
 									"key": "size",
-									"value": "3"
+									"value": "10"
 								},
 								{
 									"key": "sort",
-									"value": "holidaysId,asc"
+									"value": "holidayStart,asc"
 								}
 							]
 						}
@@ -1363,10 +1433,20 @@
 				{
 					"name": "delete holidays",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsIm1hbmFnZXIiOnsidXNlcm5hbWUiOiJUZXN6dCBFbGVrIiwiaWQiOjF9LCJhdXRoIjpbIlVTRVIiXSwiaXNzIjoiSHJBcHAiLCJmdWxsbmFtZSI6IlByw4PCs2JhIFLDg8KzemEiLCJpZCI6MiwiZXhwIjoxNjQwMTIwMDA3fQ.oL8b95AoLDt2pAjtmxGrVeW6ZmW4kmbhx1YJFfmNCaFLUmHJjfeYbBY_3xd6LnPYHGP-rjzGE74FOcQRyBNadQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/holiday/4",
+							"raw": "http://localhost:8080/api/holiday/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1375,7 +1455,41 @@
 							"path": [
 								"api",
 								"holiday",
-								"4"
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"login"
 							]
 						}
 					},

@@ -8,6 +8,7 @@ import javax.persistence.QueryHint;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -62,5 +63,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
             forCounting = false)
 	public Employee findByIdWithHoliday(Long id);
 	
+	
+	@EntityGraph(attributePaths = {"managedEmployees","manager"})
 	Optional<Employee> findByUsername(String username);
 }

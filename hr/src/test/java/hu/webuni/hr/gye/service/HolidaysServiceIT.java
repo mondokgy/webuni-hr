@@ -18,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
-import hu.webuni.hr.gye.dto.EmployeeDto;
 import hu.webuni.hr.gye.dto.HolidaysDto;
+import hu.webuni.hr.gye.dto.LoginDto;
 import hu.webuni.hr.gye.model.Employee;
 import hu.webuni.hr.gye.model.Holidays;
 import hu.webuni.hr.gye.model.Holidays.HolidayStatus;
@@ -60,12 +60,16 @@ public class HolidaysServiceIT {
 	String pass = "pass";
 	String userManager = "user";
 	
+	private String jwtManager;
+	private String jwt;
+	
 	@BeforeEach
 	public void init() {
 		holidayRepository.deleteAll();
 		employeeRepository.deleteAll();
 		positionDetailRepository.deleteAll();
 		positionRepository.deleteAll();
+		
 	}
 	
 	List<Employee> initData() {
@@ -104,6 +108,8 @@ public class HolidaysServiceIT {
 	void testcreateHoliday() throws Exception{
 		
 		List<Employee> eList = initData();
+		
+		jwt= login(userName);
 		
 		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
 		
@@ -177,6 +183,8 @@ public class HolidaysServiceIT {
 	void testApproveHoliday() throws Exception{
 		
 		testcreateHoliday();
+		
+		jwtManager= login(userManager);
 
 		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
 		
@@ -200,6 +208,8 @@ public class HolidaysServiceIT {
 		
 		testcreateHoliday();
 
+		jwtManager= login(userManager);
+		
 		List<HolidaysDto> allHolidaysBefore = getAllHolidays();
 		
 		HolidaysDto testHoliday = allHolidaysBefore.get(0);
@@ -218,12 +228,25 @@ public class HolidaysServiceIT {
 	}
 	
 	
+	private String login(String user){ 
+		LoginDto body = new LoginDto();
+		body.setUsername(user);
+		body.setPassword(pass);
+		return jwt = webTestClient.post()
+				.uri("/api/login")
+				.bodyValue(body)
+				.exchange()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
+	}
+	
 	private ResponseSpec modifyHolidays(HolidaysDto newHoliday) {
 		String path = BASE_URI + "/" + newHoliday.getHolidaysId();
 		return webTestClient
 				.put()
 				.uri(path)
-				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.bodyValue(newHoliday)
 				.exchange();
 	}
@@ -233,7 +256,7 @@ public class HolidaysServiceIT {
 		return webTestClient
 				.delete()
 				.uri(path)
-				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.exchange();
 	}
 	
@@ -241,7 +264,7 @@ public class HolidaysServiceIT {
 		return webTestClient
 				.post()
 				.uri(BASE_URI)
-				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.bodyValue(newHoliday)
 				.exchange();
 	}
@@ -250,7 +273,7 @@ public class HolidaysServiceIT {
 		List<HolidaysDto> responseList = webTestClient
 				.get()
 				.uri(BASE_URI)
-				.headers(headers -> headers.setBasicAuth(userName, pass))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.exchange()
 				.expectStatus()
 				.isOk()
@@ -266,7 +289,7 @@ public class HolidaysServiceIT {
 		return webTestClient
 				.put()
 				.uri(path)
-				.headers(headers -> headers.setBasicAuth(userManager, pass))
+				.headers(headers -> headers.setBearerAuth(jwtManager))
 				.exchange();
 	}
 }
